@@ -1,0 +1,24 @@
+[versions]
+# plugins
+kotlin = "1.9.21"
+shadowJar = "8.1.1"
+hangar = "0.1.0"
+minotaur = "2.8.7"
+
+# libraries
+bukkit = "1.8.8-R0.1-SNAPSHOT"
+netty = "4.1.97.Final"
+semver = "1.3.0"
+bStats = "3.0.2"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadowJar = { id = "com.github.johnrengelman.shadow", version.ref = "shadowJar" }
+hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+
+[libraries]
+bukkit = { module = "org.bukkit:bukkit", version.ref = "bukkit" }
+netty = { module = "io.netty:netty-transport", version.ref = "netty" }
+semver = { module = "net.swiftzer.semver:semver", version.ref = "semver" }
+bStatsBukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }

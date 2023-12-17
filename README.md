@@ -1,16 +1,16 @@
 [![SimpleScore Logo]][GitHub]
 
-[![Latest Release](https://img.shields.io/github/v/release/r4g3baby/SimpleScore)](https://github.com/r4g3baby/SimpleScore/releases/latest)
-[![Spigot Downloads](https://img.shields.io/spiget/downloads/23243)][SpigotMC]
-[![Discord](https://img.shields.io/discord/217018114083127296)][Discord]
-[![bStats Servers](https://img.shields.io/bstats/servers/644)][bStats]
-[![bStats Players](https://img.shields.io/bstats/players/644)][bStats]
+[![Latest Release](https://develop.ruipereira.pages.dev/api/badge/release/SimpleScore)](https://github.com/r4g3baby/SimpleScore/releases/latest)
+[![Downloads](https://develop.ruipereira.pages.dev/api/badge/downloads/SimpleScore)][SpigotMC]
+[![Discord](https://img.shields.io/discord/217018114083127296?label=discord)][Discord]
+[![Servers](https://develop.ruipereira.pages.dev/api/badge/servers/SimpleScore)][bStats]
+[![Players](https://develop.ruipereira.pages.dev/api/badge/players/SimpleScore)][bStats]
 [![License](https://img.shields.io/github/license/r4g3baby/SimpleScore)](https://github.com/r4g3baby/SimpleScore/blob/main/LICENSE)
 
 # Information
 [SimpleScore][GitHub] is a plugin for Minecraft servers that allows server owners to display various information to their players using Minecraft's built-in scoreboard system.
 
-Supports selecting and showing specific scoreboards to players based on their permissions, certain conditions, the current world, or even the [WorldGuard][WorldGuard] region they are in with a very simple and intuitive configuration system.
+Supports selecting and showing specific scoreboards to players based on their permissions, certain conditions, the current world, or even the [WorldGuard][WorldGuard] region they are inside with a very simple and intuitive configuration system.
 
 Also comes with support for both [PlaceholderAPI][PlaceholderAPI] and [MVdWPlaceholderAPI][MVdWPlaceholderAPI], allowing you to hook into thousands of other plugins to retrieve and display their information in real time, or create a set of conditions that the player must meet to be able to see a particular scoreboard.
 
