@@ -1,0 +1,56 @@
+# One Static Line
+scoreboardName:
+  titles: "My Awesome Title!"
+  scores: [ ]
+  conditions: [ ]
+
+# One Animated Line With 2 Frames
+scoreboardName1:
+  titles:
+    - "My First Title!"
+    - "My Second Title"
+  scores: [ ]
+  conditions: [ ]
+
+# Two Static Lines
+scoreboardName2:
+  titles:
+    - text: "Heyoo"
+      conditions: [ "!veryNice" ]
+    - text: "Idfk"
+  scores: [ ]
+  conditions: [ ]
+
+scoreboardName3:
+  titles:
+    # Blank Lines
+    - ""
+    - type: BLANK # Type is Optional
+      conditions: [ ]
+
+    # Static Lines
+    - "This is my static line!"
+    - type: STATIC # Type will be Static if "text" value is present
+      text: "This is my static line!"
+      renderEvery: 60
+      conditions: [ ]
+
+    # Animated Lines
+    - [ "First Frame", "Second Frame" ]
+    - type: ANIMATED # Type will be Animated if "frames" value is present
+      frames: "First And Only Frame"
+      conditions: [ ]
+    - type: ANIMATED
+      frames: [ "First Frame", "Second Frame" ]
+      conditions: [ ]
+    - type: ANIMATED
+      frames:
+        - text: "First Frame"
+          visibleFor: 20
+          renderEvery: 10
+        - text: "Second Frame"
+          visibleFor: 10
+          renderEvery: 10
+      conditions: [ ]
+  scores: [ ]
+  conditions: [ ]

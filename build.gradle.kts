@@ -12,9 +12,10 @@ plugins {
 group = "com.r4g3baby"
 version = "4.0.0-dev"
 
-repositories {
-    mavenCentral()
-}
+val bStatsBukkitId = 644
+val downloadUrl = "https://modrinth.com/plugin/simplescore"
+val githubUser = "r4g3baby"
+val githubRepo = "SimpleScore"
 
 dependencies {
     api(project("bukkit"))
@@ -23,31 +24,59 @@ dependencies {
 subprojects {
     group = rootProject.group
     version = rootProject.version
+
+    apply(plugin = "org.jetbrains.kotlin.jvm")
 }
 
 allprojects {
-    afterEvaluate {
-        kotlin {
-            jvmToolchain {
-                languageVersion = JavaLanguageVersion.of(17)
+    kotlin {
+        jvmToolchain {
+            languageVersion = JavaLanguageVersion.of(8)
+        }
+    }
+
+    tasks {
+        register("generateProjectInfo") {
+            val path = "${rootProject.group}.${rootProject.name.lowercase()}"
+            val outputDir = layout.buildDirectory.dir("generated/source/projectInfo/$path")
+            outputs.dir(outputDir)
+
+            val outputFile = outputDir.map { it.file("ProjectInfo.kt") }.get().asFile
+            doLast {
+                outputFile.parentFile.mkdirs()
+                outputFile.writeText(
+                    """
+                        package $path
+
+                        import net.swiftzer.semver.SemVer
+
+                        object ProjectInfo {
+                            const val BSTATS_BUKKIT_ID: Int = $bStatsBukkitId
+
+                            const val NAME: String = "${rootProject.name}"
+                            val VERSION: SemVer = SemVer.parse("${rootProject.version}")
+
+                            const val DOWNLOAD_URL: String = "$downloadUrl"
+                            const val GITHUB_USER: String = "$githubUser"
+                            const val GITHUB_REPO: String = "$githubRepo"
+                        }
+                    """.trimIndent()
+                )
             }
         }
 
-        tasks {
-            processResources {
-                filteringCharset = "UTF-8"
-                filesMatching(listOf("**plugin.yml", "**project.properties")) {
-                    filter<ReplaceTokens>(
-                        "tokens" to mapOf(
-                            "name" to rootProject.name,
-                            "version" to rootProject.version,
-                            "description" to "A simple animated scoreboard plugin for your server.",
-                            "package" to "${rootProject.group}.${rootProject.name.lowercase()}",
-                            "website" to "https://r4g3baby.com",
-                            "githubUser" to "r4g3baby", "githubRepo" to "SimpleScore"
-                        )
+        processResources {
+            filteringCharset = "UTF-8"
+            filesMatching(listOf("**plugin.yml")) {
+                filter<ReplaceTokens>(
+                    "tokens" to mapOf(
+                        "name" to rootProject.name,
+                        "version" to rootProject.version,
+                        "description" to "A simple animated scoreboard plugin for your server.",
+                        "package" to "${rootProject.group}.${rootProject.name.lowercase()}",
+                        "website" to "https://r4g3baby.com"
                     )
-                }
+                )
             }
         }
     }
@@ -58,13 +87,13 @@ tasks {
         archiveFileName.set("${project.name}-${project.version}.jar")
 
         val libs = "${project.group}.${project.name.lowercase()}.lib"
-        relocate("org.codemc.worldguardwrapper", "$libs.wgwrapper")
+        relocate("org.objenesis", "$libs.objenesis")
         relocate("net.swiftzer.semver", "$libs.semver")
         relocate("org.bstats", "$libs.bstats")
-        relocate("com.zaxxer.hikari", "$libs.hikari")
-        relocate("org.slf4j", "$libs.slf4j")
+        //relocate("com.zaxxer.hikari", "$libs.hikari")
+        //relocate("org.slf4j", "$libs.slf4j")
+
         relocate("org.jetbrains", "$libs.jetbrains")
-        relocate("org.intellij", "$libs.intellij")
         relocate("kotlin", "$libs.kotlin")
 
         from(file("LICENSE"))
@@ -98,7 +127,7 @@ tasks {
         projectId = findProperty("modrinth.project") as String? ?: System.getenv("MODRINTH_PROJECT")
         uploadFile = shadowJar.get()
         gameVersions = mapVersions("modrinth.versions")
-        loaders = arrayListOf("bukkit", "spigot", "paper")
+        loaders = arrayListOf("bukkit", "spigot", "paper", "folia")
         changelog = generateChangelog()
 
         syncBodyFrom = file("README.md").readText()
@@ -112,7 +141,7 @@ fun mapVersions(propertyName: String): Provider<List<String>> = provider {
 
 fun generateChangelog(): Provider<String> = provider {
     val tags = ByteArrayOutputStream().apply {
-        exec {
+        providers.exec {
             commandLine("git", "tag", "--sort", "version:refname")
             standardOutput = this@apply
         }
@@ -126,7 +155,7 @@ fun generateChangelog(): Provider<String> = provider {
     val changelog = ByteArrayOutputStream().apply {
         write("### Commits:\n".toByteArray())
 
-        exec {
+        providers.exec {
             commandLine("git", "log", tagsRange, "--pretty=format:- [%h]($repoUrl/commit/%H) %s", "--reverse")
             standardOutput = this@apply
         }

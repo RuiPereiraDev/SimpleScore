@@ -1,20 +1,12 @@
-plugins {
-    alias(libs.plugins.kotlin)
-}
-
-repositories {
-    mavenCentral()
-
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://repo.papermc.io/repository/maven-public/")
-}
-
 dependencies {
     api(project(":core"))
+    implementation(project(":bukkit:protocol"))
+    implementation(project(":bukkit:worldguard"))
 
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-    // compileOnly(libs.bukkit)
-    compileOnly(libs.netty)
+    compileOnly(libs.bukkit)
+    compileOnly(libs.papi)
+    compileOnly(libs.adventureMiniMessage)
+    compileOnly(libs.adventureSerializer)
 
     implementation(libs.bStatsBukkit)
 }

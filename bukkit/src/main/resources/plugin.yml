@@ -1,11 +1,12 @@
 name: @name@
 version: @version@
 main: @package@.BukkitPlugin
-softdepend: [ProtocolLib, WorldGuard, PlaceholderAPI, MVdWPlaceholderAPI, ViaBackwards, mcMMO]
+softdepend: [WorldGuard, PlaceholderAPI]
 authors: [R4G3_BABY]
 description: "@description@"
 website: @website@
 api-version: "1.13"
+folia-supported: true
 
 commands:
   SimpleScore:

@@ -1,0 +1,69 @@
+package com.r4g3baby.simplescore.api.scoreboard
+
+import com.r4g3baby.simplescore.api.scoreboard.condition.Conditional
+import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
+
+/**
+ * Represents a line of text that can be displayed on a scoreboard.
+ * A scoreboard line can have text effects applied to it and conditions that determine its visibility.
+ *
+ * @param V The type of the platform-specific player object.
+ */
+public interface ScoreboardLine<V : Any> : Conditional<V> {
+    /**
+     * Companion object containing default constants for scoreboard line behavior.
+     */
+    public companion object {
+        /**
+         * The default number of ticks a line should be visible before cycling to the next line.
+         */
+        public const val DEFAULT_VISIBLE_TICKS: Int = 20
+
+        /**
+         * The default number of ticks between rendering updates.
+         */
+        public const val DEFAULT_RENDER_TICKS: Int = 10
+    }
+
+    /**
+     * An array of text effects to be applied to the line's text.
+     * These effects can modify the appearance of the text, such as adding colors or animations.
+     */
+    public val textEffects: Array<TextEffect>
+
+    /**
+     * Updates the state of the line for the next frame.
+     * This method is called periodically to animate the line.
+     */
+    public fun tick()
+
+    /**
+     * Determines whether the line should be rendered in the current frame.
+     *
+     * @return True if the line should be rendered, false otherwise.
+     */
+    public fun shouldRender(): Boolean
+
+    /**
+     * Gets the current text to be displayed for a specific viewer.
+     *
+     * @param viewer The platform-specific player object for whom the text is being retrieved.
+     * @param varReplacer A function to replace variables in the text.
+     * @return The current text to be displayed.
+     */
+    public fun currentText(viewer: V, varReplacer: VarReplacer<V>): String
+
+    /**
+     * Applies all text effects to the given text.
+     *
+     * @param text The original text to apply effects to.
+     * @return The text with all effects applied.
+     */
+    public fun ScoreboardLine<V>.applEffects(text: String): String {
+        var finalText = text
+        textEffects.forEach { textEffect ->
+            finalText = textEffect.apply(finalText)
+        }
+        return finalText
+    }
+}
