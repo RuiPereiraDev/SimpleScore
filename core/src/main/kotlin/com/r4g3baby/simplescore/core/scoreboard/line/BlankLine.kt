@@ -1,13 +1,12 @@
 package com.r4g3baby.simplescore.core.scoreboard.line
 
-import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
-import com.r4g3baby.simplescore.api.scoreboard.ScoreboardLine
-import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 import com.r4g3baby.simplescore.api.scoreboard.VarReplacer
+import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
+import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 
 class BlankLine<V : Any>(
     override val conditions: Array<Condition<V>> = emptyArray()
-) : ScoreboardLine<V> {
+) : ScoreboardLine<V>() {
     override val textEffects: Array<TextEffect> = emptyArray()
 
     override fun tick() {}

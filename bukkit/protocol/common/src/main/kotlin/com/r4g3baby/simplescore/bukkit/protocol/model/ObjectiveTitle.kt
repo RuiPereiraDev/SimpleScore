@@ -1,8 +1,6 @@
 package com.r4g3baby.simplescore.bukkit.protocol.model
 
-data class ObjectiveScore(
+data class ObjectiveTitle(
     val lineIdentifier: String,
     val text: String,
-    val value: Int,
-    val hideNumber: Boolean
 )

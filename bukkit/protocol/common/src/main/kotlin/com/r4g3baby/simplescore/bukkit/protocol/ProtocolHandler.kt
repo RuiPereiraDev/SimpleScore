@@ -1,7 +1,8 @@
 package com.r4g3baby.simplescore.bukkit.protocol
 
+import com.r4g3baby.simplescore.bukkit.protocol.model.ObjectiveScore
+import com.r4g3baby.simplescore.bukkit.protocol.model.ObjectiveTitle
 import com.r4g3baby.simplescore.bukkit.protocol.model.PlayerObjective
-import com.r4g3baby.simplescore.bukkit.protocol.model.ScoreData
 import org.bukkit.ChatColor
 import org.bukkit.ChatColor.COLOR_CHAR
 import org.bukkit.entity.Player
@@ -15,13 +16,9 @@ abstract class ProtocolHandler {
         return playerObjectives[player.uniqueId]
     }
 
-    fun hasObjective(player: Player): Boolean {
-        return playerObjectives.containsKey(player.uniqueId)
-    }
-
-    abstract fun createObjective(player: Player, title: String?): PlayerObjective
+    abstract fun createObjective(player: Player, title: ObjectiveTitle): PlayerObjective
     abstract fun removeObjective(player: Player): PlayerObjective?
-    abstract fun updateScoreboard(player: Player, title: String?, scores: List<ScoreData>)
+    abstract fun updateScoreboard(player: Player, title: ObjectiveTitle, scores: Map<String, ObjectiveScore>)
 
     protected fun getObjectiveName(player: Player): String {
         return "sb${player.uniqueId.toString().replace("-", "")}".substring(0..15)

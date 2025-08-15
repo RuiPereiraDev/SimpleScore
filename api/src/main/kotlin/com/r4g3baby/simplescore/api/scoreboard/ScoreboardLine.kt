@@ -11,25 +11,16 @@ import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
  */
 public interface ScoreboardLine<V : Any> : Conditional<V> {
     /**
-     * Companion object containing default constants for scoreboard line behavior.
-     */
-    public companion object {
-        /**
-         * The default number of ticks a line should be visible before cycling to the next line.
-         */
-        public const val DEFAULT_VISIBLE_TICKS: Int = 20
-
-        /**
-         * The default number of ticks between rendering updates.
-         */
-        public const val DEFAULT_RENDER_TICKS: Int = 10
-    }
-
-    /**
      * An array of text effects to be applied to the line's text.
      * These effects can modify the appearance of the text, such as adding colors or animations.
      */
     public val textEffects: Array<TextEffect>
+
+    /**
+     * A unique identifier for this line.
+     * This is used to distinguish between different lines in the scoreboard.
+     */
+    public val identifier: String
 
     /**
      * Updates the state of the line for the next frame.
@@ -59,7 +50,7 @@ public interface ScoreboardLine<V : Any> : Conditional<V> {
      * @param text The original text to apply effects to.
      * @return The text with all effects applied.
      */
-    public fun ScoreboardLine<V>.applEffects(text: String): String {
+    public fun ScoreboardLine<V>.applyEffects(text: String): String {
         var finalText = text
         textEffects.forEach { textEffect ->
             finalText = textEffect.apply(finalText)

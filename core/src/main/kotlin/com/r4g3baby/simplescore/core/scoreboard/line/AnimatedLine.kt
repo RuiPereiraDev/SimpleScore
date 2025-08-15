@@ -1,19 +1,18 @@
 package com.r4g3baby.simplescore.core.scoreboard.line
 
-import com.r4g3baby.simplescore.api.scoreboard.ScoreboardLine
-import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 import com.r4g3baby.simplescore.api.scoreboard.VarReplacer
 import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
+import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 
 class AnimatedLine<V : Any>(
     val frames: List<Frame>,
     override val textEffects: Array<TextEffect> = emptyArray(),
     override val conditions: Array<Condition<V>> = emptyArray()
-) : ScoreboardLine<V> {
+) : ScoreboardLine<V>() {
     class Frame(
         val text: String,
-        val visibleFor: Int = ScoreboardLine.DEFAULT_VISIBLE_TICKS,
-        val renderEvery: Int = ScoreboardLine.DEFAULT_RENDER_TICKS
+        val visibleFor: Int = DEFAULT_VISIBLE_TICKS,
+        val renderEvery: Int = DEFAULT_RENDER_TICKS
     ) {
         override fun toString(): String {
             return "Frame(text=$text, visibleFor=$visibleFor, renderEvery=$renderEvery)"
@@ -49,7 +48,7 @@ class AnimatedLine<V : Any>(
     override fun currentText(viewer: V, varReplacer: VarReplacer<V>): String {
         if (frames.isEmpty()) return ""
 
-        return applEffects(varReplacer.replace(frames[currentIndex].text, viewer))
+        return applyEffects(varReplacer.replace(frames[currentIndex].text, viewer))
     }
 
     override fun toString(): String {

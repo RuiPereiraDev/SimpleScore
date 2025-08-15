@@ -1,16 +1,15 @@
 package com.r4g3baby.simplescore.core.scoreboard.line
 
-import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
-import com.r4g3baby.simplescore.api.scoreboard.ScoreboardLine
-import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 import com.r4g3baby.simplescore.api.scoreboard.VarReplacer
+import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
+import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 
 class StaticLine<V : Any>(
     val text: String,
-    val renderEvery: Int = ScoreboardLine.DEFAULT_RENDER_TICKS,
+    val renderEvery: Int = DEFAULT_RENDER_TICKS,
     override val textEffects: Array<TextEffect> = emptyArray(),
     override val conditions: Array<Condition<V>> = emptyArray()
-) : ScoreboardLine<V> {
+) : ScoreboardLine<V>() {
     private var currentTick = 1
 
     override fun tick() {
@@ -24,7 +23,7 @@ class StaticLine<V : Any>(
     }
 
     override fun currentText(viewer: V, varReplacer: VarReplacer<V>): String {
-        return applEffects(varReplacer.replace(text, viewer))
+        return applyEffects(varReplacer.replace(text, viewer))
     }
 
     override fun toString(): String {

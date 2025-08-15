@@ -14,22 +14,22 @@ import com.r4g3baby.simplescore.bukkit.protocol.legacy.packet.WrappedUpdateScore
 import com.r4g3baby.simplescore.bukkit.protocol.legacy.packet.WrappedUpdateTeam
 import com.r4g3baby.simplescore.bukkit.protocol.legacy.packet.WrappedUpdateTeam.TeamMode
 import com.r4g3baby.simplescore.bukkit.protocol.model.ObjectiveScore
+import com.r4g3baby.simplescore.bukkit.protocol.model.ObjectiveTitle
 import com.r4g3baby.simplescore.bukkit.protocol.model.PlayerObjective
-import com.r4g3baby.simplescore.bukkit.protocol.model.ScoreData
 import org.bukkit.entity.Player
 
 open class LegacyProtocolHandler : ProtocolHandler() {
-    override fun createObjective(player: Player, title: String?): PlayerObjective {
+    override fun createObjective(player: Player, title: ObjectiveTitle): PlayerObjective {
         return playerObjectives.computeIfAbsent(player.uniqueId) {
             with(ChannelInjector.getChannel(player)) {
                 val objectiveName = getObjectiveName(player)
                 writePackets(
-                    WrappedUpdateObjective(objectiveName, Mode.CREATE, Type.INTEGER, title ?: ""),
+                    WrappedUpdateObjective(objectiveName, Mode.CREATE, Type.INTEGER, title.text),
                     WrappedDisplayObjective(objectiveName, Position.SIDEBAR)
                 )
             }
 
-            return@computeIfAbsent PlayerObjective(title, emptyList())
+            return@computeIfAbsent PlayerObjective(title, emptyMap())
         }
     }
 
@@ -40,7 +40,7 @@ open class LegacyProtocolHandler : ProtocolHandler() {
             val objectiveName = getObjectiveName(player)
             writePacket(WrappedUpdateObjective(objectiveName, Mode.REMOVE))
 
-            playerObjective.scores.forEach { (identifier, _, _) ->
+            playerObjective.scores.forEach { (identifier, _) ->
                 writePacket(WrappedUpdateTeam(identifierToName(identifier), TeamMode.REMOVE))
             }
         }
@@ -48,35 +48,35 @@ open class LegacyProtocolHandler : ProtocolHandler() {
         return playerObjective
     }
 
-    override fun updateScoreboard(player: Player, title: String?, scores: List<ScoreData>) {
+    override fun updateScoreboard(player: Player, title: ObjectiveTitle, scores: Map<String, ObjectiveScore>) {
         val playerObjective = playerObjectives[player.uniqueId] ?: return
         with(ChannelInjector.getChannel(player)) {
             val objectiveName = getObjectiveName(player)
 
-            if (title != null && playerObjective.title != title) {
-                writePacket(WrappedUpdateObjective(objectiveName, Mode.UPDATE, Type.INTEGER, title))
+            if (playerObjective.title != title) {
+                writePacket(WrappedUpdateObjective(objectiveName, Mode.UPDATE, Type.INTEGER, title.text))
             }
 
-            val objectiveScores = mutableListOf<ObjectiveScore>()
-            scores.forEach { (identifier, text, score, hideNumber) ->
+            val objectiveScores = mutableMapOf<String, ObjectiveScore>()
+            scores.forEach { (identifier, newScore) ->
                 val scoreName = identifierToName(identifier)
+                val (_, text, score, _) = newScore
 
-                val currentScore = playerObjective.scores.find { it.identifier == identifier }
+                val currentScore = playerObjective.scores[identifier]
                 if (currentScore != null) {
-                    if (text != null && currentScore.text != text) {
+                    if (currentScore.text != text) {
                         val (prefix, suffix) = splitScoreLine(text, true)
                         writePacket(WrappedUpdateTeam(scoreName, TeamMode.UPDATE, "", prefix, suffix))
                     }
 
-                    if (score != currentScore.score) {
+                    if (score != currentScore.value) {
                         writePacket(WrappedUpdateScore(objectiveName, scoreName, Action.UPDATE, score))
                     }
 
-                    objectiveScores.add(ObjectiveScore(identifier, text ?: currentScore.text, score, hideNumber))
+                    objectiveScores[identifier] = newScore
                     return@forEach
                 }
 
-                if (text == null) return@forEach
                 val (prefix, suffix) = splitScoreLine(text, true)
 
                 writePackets(
@@ -84,11 +84,11 @@ open class LegacyProtocolHandler : ProtocolHandler() {
                     WrappedUpdateScore(objectiveName, scoreName, Action.UPDATE, score)
                 )
 
-                objectiveScores.add(ObjectiveScore(identifier, text, score, hideNumber))
+                objectiveScores[identifier] = newScore
             }
 
-            playerObjective.scores.forEach { (identifier, _, _) ->
-                if (scores.any { it.identifier == identifier }) return@forEach
+            playerObjective.scores.forEach { (identifier, _) ->
+                if (scores.containsKey(identifier)) return@forEach
 
                 val scoreName = identifierToName(identifier)
                 writePackets(
@@ -97,13 +97,9 @@ open class LegacyProtocolHandler : ProtocolHandler() {
                 )
             }
 
-            playerObjectives.computeIfPresent(player.uniqueId) {_, _ ->
-                PlayerObjective(title ?: playerObjective.title, objectiveScores)
+            playerObjectives.computeIfPresent(player.uniqueId) { _, _ ->
+                PlayerObjective(title, objectiveScores)
             }
-            /*playerObjective.apply {
-                this.title = title ?: this.title
-                this.scores = objectiveScores
-            }*/
         }
     }
 }
