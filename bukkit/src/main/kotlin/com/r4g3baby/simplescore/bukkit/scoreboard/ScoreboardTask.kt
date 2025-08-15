@@ -38,7 +38,7 @@ class ScoreboardTask(
 
             val scores = mutableMapOf<String, ObjectiveScore>()
             scoreboard.getScores(player, manager.varReplacer).forEach scoresForEach@{ scoreboardScore ->
-                val value = scoreboardScore.getScoreAsInteger(player, manager.varReplacer) ?: return@scoresForEach
+                val value = scoreboardScore.getValueAsInteger(player, manager.varReplacer) ?: return@scoresForEach
                 val line = scoreboardScore.getLine(player, manager.varReplacer) ?: return@scoresForEach
 
                 val currentScore = playerObjective.scores[scoreboardScore.identifier]

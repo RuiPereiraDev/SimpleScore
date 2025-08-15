@@ -40,7 +40,7 @@ class AnimatedLine<V : Any>(
         if (currentTick == 1) return true
         val frame = frames[currentIndex]
 
-        // Will render at the start of the mext frame instead
+        // Will render at the start of the next frame instead
         if (frame.visibleFor == currentTick && frame.renderEvery == currentTick) return false
         return (currentTick % frame.renderEvery) == 0
     }

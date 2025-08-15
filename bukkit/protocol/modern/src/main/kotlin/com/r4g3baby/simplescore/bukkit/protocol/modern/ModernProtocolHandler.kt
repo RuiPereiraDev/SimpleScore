@@ -62,7 +62,6 @@ class ModernProtocolHandler : ProtocolHandler() {
                 }
 
                 val displayName = fromString(text)
-
                 val numberFormat = if (hideNumber) WrappedNumberFormat.blankFormat else null
 
                 writePacket(

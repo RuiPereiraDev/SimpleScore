@@ -19,7 +19,7 @@ public interface ScoreboardScore<V : Any> : Conditional<V> {
      * The score value as a string.
      * This can be a fixed value or a placeholder that will be replaced at runtime.
      */
-    public val score: String
+    public val value: String
 
     /**
      * A list of lines that can be displayed for this score entry.
@@ -40,7 +40,7 @@ public interface ScoreboardScore<V : Any> : Conditional<V> {
      * @param varReplacer A function to replace variables in the score value.
      * @return The score value as an integer, or null if the score cannot be parsed as an integer.
      */
-    public fun getScoreAsInteger(viewer: V, varReplacer: VarReplacer<V>): Int?
+    public fun getValueAsInteger(viewer: V, varReplacer: VarReplacer<V>): Int?
 
     /**
      * Gets the current line to be displayed for a specific viewer.

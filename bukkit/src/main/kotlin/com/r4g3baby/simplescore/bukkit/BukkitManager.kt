@@ -45,6 +45,10 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
     override fun onDisable() {
         HandlerList.unregisterAll(plugin)
 
+        plugin.server.onlinePlayers.forEach { player ->
+            removeViewer(player.uniqueId)
+        }
+
         super.onDisable()
     }
 
@@ -65,7 +69,7 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
 
         // Refresh player scoreboards
         plugin.server.onlinePlayers.forEach { player ->
-            getViewer(player.uniqueId)?.apply {
+            getOrCreateViewer(player).apply {
                 onViewerChangeWorld(this, player.world)
                 onViewerChangeLocation(this, player.location)
             }

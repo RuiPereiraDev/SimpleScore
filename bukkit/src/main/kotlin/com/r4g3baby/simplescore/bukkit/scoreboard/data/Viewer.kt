@@ -53,7 +53,8 @@ data class Viewer(
     override fun setPriority(priority: Priority?, provider: Provider) {
         entries.computeIfPresent(provider) { _, entry ->
             entry.copy(priority = priority ?: Priority.Normal)
-        }.also { invalidateCache() }
+        }
+        invalidateCache()
     }
 
     override fun getPriority(provider: Provider): Priority? {

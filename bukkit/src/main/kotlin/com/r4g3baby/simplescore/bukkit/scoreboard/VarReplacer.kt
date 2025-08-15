@@ -26,7 +26,7 @@ class VarReplacer(plugin: BukkitPlugin) : VarReplacer<Player> {
             .lazyReplace("%player_maxHealth%") { viewer.maxHealth.roundToInt().toString() }
             .lazyReplace("%player_hearts%") {
                 val hearts = min(10, max(0, ((viewer.health / viewer.maxHealth) * 10).roundToInt()))
-                "<gradient:red:black>${"❤".repeat(hearts)}${"❤".repeat(10 - hearts)}"
+                "<red>${"❤".repeat(hearts)}<black>${"❤".repeat(10 - hearts)}"
             }
             .lazyReplace("%server_online%") { viewer.server.onlinePlayers.size.toString() }
             .lazyReplace("%server_maxPlayers%") { viewer.server.maxPlayers.toString() }

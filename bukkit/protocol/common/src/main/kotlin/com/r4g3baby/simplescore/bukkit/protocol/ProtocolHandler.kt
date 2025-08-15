@@ -31,7 +31,7 @@ abstract class ProtocolHandler {
     protected fun splitScoreLine(text: String, cutSuffix: Boolean = false): Pair<String, String> {
         var index = 16
         if (text.length > index) {
-            // Prevent spliting normal color codes
+            // Prevent splitting normal color codes
             if (text.elementAt(index - 1) == COLOR_CHAR) index--
 
             // Prevent splitting hex color codes
@@ -48,12 +48,12 @@ abstract class ProtocolHandler {
                 }
             }
 
-            val prefix = text.substring(0, index)
+            val prefix = text.take(index)
             val lastColors = ChatColor.getLastColors(prefix)
 
             var suffix = lastColors + text.substring(index)
             if (cutSuffix && suffix.length > 16) {
-                suffix = suffix.substring(0, 16)
+                suffix = suffix.take(16)
             }
 
             return prefix to suffix

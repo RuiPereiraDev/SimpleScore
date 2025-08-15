@@ -27,6 +27,6 @@ class Scoreboard<V : Any>(
     }
 
     override fun toString(): String {
-        return "Scoreboard(name=$name, titles=$titles, scores=$scores, conditions=$conditions)"
+        return "Scoreboard(name=$name, titles=$titles, scores=$scores, hideNumbers=$hideNumbers, conditions=$conditions)"
     }
 }

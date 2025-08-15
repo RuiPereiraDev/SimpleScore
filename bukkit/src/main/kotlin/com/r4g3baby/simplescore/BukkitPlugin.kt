@@ -56,11 +56,11 @@ class BukkitPlugin : JavaPlugin(), Platform<Player> {
     }
 
     override fun onDisable() {
-        if (this::manager.isInitialized) {
-            manager.onDisable()
-        }
         if (this::scheduler.isInitialized) {
             scheduler.cancelTasks()
+        }
+        if (this::manager.isInitialized) {
+            manager.onDisable()
         }
     }
 }
