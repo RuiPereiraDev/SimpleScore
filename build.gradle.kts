@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 import java.io.ByteArrayOutputStream
 
 plugins {
+    id("maven-publish")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.shadowJar)
     alias(libs.plugins.hangar)
@@ -22,10 +23,29 @@ dependencies {
 }
 
 subprojects {
-    group = rootProject.group
+    group = "${rootProject.group}.simplescore"
     version = rootProject.version
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "maven-publish")
+
+    java {
+        withSourcesJar()
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                create<MavenPublication>("maven") {
+                    groupId = project.group.toString()
+                    artifactId = project.name
+                    version = project.version.toString()
+
+                    from(components["java"])
+                }
+            }
+        }
+    }
 }
 
 allprojects {

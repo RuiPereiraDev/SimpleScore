@@ -1,5 +1,5 @@
 subprojects {
-    group = "${rootProject.group}.worldguard"
+    group = "${project.group}.worldguard"
 }
 
 dependencies {

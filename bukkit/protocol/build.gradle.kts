@@ -1,5 +1,5 @@
 subprojects {
-    group = "${rootProject.group}.protocol"
+    group = "${project.group}.protocol"
 }
 
 dependencies {
