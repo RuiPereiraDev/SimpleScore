@@ -21,75 +21,113 @@ class ConditionsConfig(
 
     override fun loadVariables(config: YamlConfiguration) {
         config.getKeys(false).forEach { name ->
-            val section = config.getConfigurationSection(name)
-            if (section != null) {
-                val type = section.getString("type") ?: run {
-                    plugin.logger.warning("Missing type for condition: $name.")
-                    return@forEach
-                }
+            val section = config.getConfigurationSection(name) ?: return@forEach
 
-                if (type.equals("HasPermission", true)) {
-                    conditions[name] = HasPermission(
-                        name, false,
-                        section.getString("permission"),
-                        section.getBoolean("parsePermission", false)
-                    )
-                } else if (type.equals("GreaterThan", true)) {
-                    conditions[name] = GreaterThan(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("orEqual", false)
-                    )
-                } else if (type.equals("LessThan", true)) {
-                    conditions[name] = LessThan(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("orEqual", false)
-                    )
-                } else if (type.equals("Equals", true)) {
-                    conditions[name] = Equals(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("ignoreCase", false)
-                    )
-                } else if (type.equals("Contains", true)) {
-                    conditions[name] = Contains(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("ignoreCase", false)
-                    )
-                } else if (type.equals("StartsWith", true)) {
-                    conditions[name] = StartsWith(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("ignoreCase", false)
-                    )
-                } else if (type.equals("EndsWith", true)) {
-                    conditions[name] = EndsWith(
-                        name, false,
-                        section.getString("input"),
-                        section.getBoolean("parseInput", true),
-                        section.getString("value"),
-                        section.getBoolean("parseValue", false),
-                        section.getBoolean("ignoreCase", false)
-                    )
-                } else plugin.logger.warning("Invalid type value for conditon: $name, type: $type.")
+            val type = section.getString("type") ?: run {
+                plugin.logger.warning("Missing type key for condition: $name.")
+                return@forEach
             }
+
+            if (type.equals("HasPermission", true)) {
+                conditions[name] = HasPermission(
+                    name,
+                    section.getString("permission") ?: run {
+                        plugin.logger.warning("Missing permission key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parsePermission", false)
+                )
+            } else if (type.equals("GreaterThan", true)) {
+                conditions[name] = GreaterThan(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("orEqual", false)
+                )
+            } else if (type.equals("LessThan", true)) {
+                conditions[name] = LessThan(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("orEqual", false)
+                )
+            } else if (type.equals("Equals", true)) {
+                conditions[name] = Equals(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("ignoreCase", false)
+                )
+            } else if (type.equals("Contains", true)) {
+                conditions[name] = Contains(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("ignoreCase", false)
+                )
+            } else if (type.equals("StartsWith", true)) {
+                conditions[name] = StartsWith(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("ignoreCase", false)
+                )
+            } else if (type.equals("EndsWith", true)) {
+                conditions[name] = EndsWith(
+                    name,
+                    section.getString("input") ?: run {
+                        plugin.logger.warning("Missing input key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseInput", true),
+                    section.getString("value") ?: run {
+                        plugin.logger.warning("Missing value key for condition: $name.")
+                        return@forEach
+                    },
+                    section.getBoolean("parseValue", false),
+                    section.getBoolean("ignoreCase", false)
+                )
+            } else plugin.logger.warning("Invalid type value for condition: $name, type: $type.")
         }
     }
 }
