@@ -13,17 +13,12 @@ plugins {
 group = "com.r4g3baby"
 version = "4.0.0-dev"
 
-val bStatsBukkitId = 644
-val downloadUrl = "https://modrinth.com/plugin/simplescore"
-val githubUser = "r4g3baby"
-val githubRepo = "SimpleScore"
-
 dependencies {
     api(project("bukkit"))
 }
 
 subprojects {
-    group = "${rootProject.group}.simplescore"
+    group = "${rootProject.group}.${rootProject.name.lowercase()}"
     version = rootProject.version
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -56,35 +51,6 @@ allprojects {
     }
 
     tasks {
-        register("generateProjectInfo") {
-            val path = "${rootProject.group}.${rootProject.name.lowercase()}"
-            val outputDir = layout.buildDirectory.dir("generated/source/projectInfo/$path")
-            outputs.dir(outputDir)
-
-            val outputFile = outputDir.map { it.file("ProjectInfo.kt") }.get().asFile
-            doLast {
-                outputFile.parentFile.mkdirs()
-                outputFile.writeText(
-                    """
-                        package $path
-
-                        import net.swiftzer.semver.SemVer
-
-                        object ProjectInfo {
-                            const val BSTATS_BUKKIT_ID: Int = $bStatsBukkitId
-
-                            const val NAME: String = "${rootProject.name}"
-                            val VERSION: SemVer = SemVer.parse("${rootProject.version}")
-
-                            const val DOWNLOAD_URL: String = "$downloadUrl"
-                            const val GITHUB_USER: String = "$githubUser"
-                            const val GITHUB_REPO: String = "$githubRepo"
-                        }
-                    """.trimIndent()
-                )
-            }
-        }
-
         processResources {
             filteringCharset = "UTF-8"
             filesMatching(listOf("**plugin.yml")) {
@@ -128,7 +94,7 @@ tasks {
     hangarPublish {
         publications.register("plugin") {
             apiKey = findProperty("hangar.token") as String? ?: System.getenv("HANGAR_TOKEN")
-            id = findProperty("hangar.project") as String? ?: System.getenv("HANGAR_PROJECT")
+            id = property("hangar.project") as String?
             version = project.version as String
             channel = "Release"
             changelog = generateChangelog()
@@ -144,7 +110,7 @@ tasks {
 
     modrinth {
         token = findProperty("modrinth.token") as String? ?: System.getenv("MODRINTH_TOKEN")
-        projectId = findProperty("modrinth.project") as String? ?: System.getenv("MODRINTH_PROJECT")
+        projectId = property("modrinth.project") as String?
         uploadFile = shadowJar.get()
         gameVersions = mapVersions("modrinth.versions")
         loaders = arrayListOf("bukkit", "spigot", "paper", "folia")
@@ -171,7 +137,7 @@ fun generateChangelog(): Provider<String> = provider {
         "${tags[tags.size - 2]}...${tags[tags.size - 1]}"
     } else if (tags.isNotEmpty()) tags[0] else "HEAD~1...HEAD"
 
-    val repoUrl = findProperty("github.repo") as String? ?: System.getenv("GITHUB_REPO_URL")
+    val repoUrl = property("github.url") as String?
     val changelog = ByteArrayOutputStream().apply {
         write("### Commits:\n".toByteArray())
 
