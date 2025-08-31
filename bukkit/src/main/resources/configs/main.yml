@@ -1,9 +1,11 @@
+## Main Config (https://github.com/r4g3baby/SimpleScore/wiki/Configuration)
+# This is where you can customize some plugin settings and the default world scoreboards.
+
 # (Do not change) Indicates the configuration file format.
 version: 4
 
 # Choose the language for plugin messages (supported: en/English, pt/Portuguese).
-# To use custom messages, refer to the plugin documentation:
-# todo: link to documentation
+# To use custom messages, refer to the plugin documentation.
 language: en
 
 # Enables automatic checks for plugin updates on startup.
@@ -11,53 +13,37 @@ checkForUpdates: true
 
 ## Worlds Configuration (Optional)
 # Defines the default scoreboards displayed in each world.
-# You can use regular expressions to match multiple worlds.
-# Supportes regex.
+# The plugin uses regular expressions to match world names.
+# Need to test your regex? Try https://regex101.com
+#
+# The order is important: the first pattern that matches a world name will be used.
+# It is recommended to put more specific patterns at the top.
+#
+# When multiple scoreboards are listed for a single world, the plugin will display
+# the first one in the list for which the player meets all of its conditions.
 worlds:
-  world_the_end: [ 'conditional', 'simple' ]
-  world_\w*: [ 'customTiming' ]
-  '[\w\- ]*': [ 'simple' ]
+  # For the worlds 'pvp_arena_1' and 'pvp_arena_2', set the 'pvp' scoreboard.
+  '^(pvp_arena_1|pvp_arena_2)$': [ 'pvp' ]
 
-## Player Data Storage (Optional)
-# Allows you to save player data to a database.
-# Changing storage settings requires a server restart.
-storage:
-  # Supported database drivers:
-  #  Local: H2, SQLite
-  #  Remote: PostgreSQL, MariaDB, MySQL
-  # Set to "none" to disable player data saving.
-  driver: H2
-  # Sets a prefix for SimpleScore tables.
-  tablePrefix: simplescore_
+  # For any world starting with 'survival_', the plugin will first try to show the
+  # 'survival' scoreboard. If the player doesn't meet its conditions, it will then
+  # check and display the 'economy' scoreboard if its conditions are met.
+  '^survival_\w+$': [ 'survival', 'economy' ]
 
-  # Database Details (Remote Only).
-  address: 127.0.0.1:3306
-  database: minecraft
-  username: simplescore
-  password: '|D/-\55\^/0|2|)'
+  # For worlds starting with 'parkour' or 'skyblock' in their names, set the 'minigame' scoreboard.
+  '^(parkour|skyblock).*$': [ 'minigame' ]
 
-  # HikariCP's connection pool settings for remote databases.
-  # The default provided settings should work fine for most server setups.
-  # You shouldn't modify them unless you understand connection pooling.
-  pool:
-    # Maximum number of connections in the pool.
-    maximumPoolSize: 8
-    # Minimum idle connections maintained.
-    minimumIdle: 8
-    # Maximum connection lifetime in milliseconds.
-    maxLifetime: 1800000
-    # Interval for testing connection aliveness (in milliseconds).
-    keepaliveTime: 0
-    # Connection timeout in milliseconds.
-    connectionTimeout: 5000
-    # Additional properties for the database driver.
-    extraProperties:
-      useUnicode: true
-      characterEncoding: utf8
+  # Sets the 'the_end' scoreboard specifically for the default End world.
+  '^world_the_end$': [ 'the_end' ]
+
+  # The default configuration for all other worlds that don't match the above patterns.
+  # The '.*' regex is the most generic wildcard, matching any character.
+  # This acts as a fallback to ensure all worlds have a scoreboard.
+  '.*': [ 'default' ]
 
 ## Advanced Settings
 # Do not modify unless you know the implications.
 
-# Controls the frequency of the update task in ticks.
+# Controls the frequency of the update task in ticks (20 ticks = 1 second).
 # Changes require a server restart.
 taskUpdateTime: 1
