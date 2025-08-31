@@ -1,20 +1,22 @@
-## Conditions (https://github.com/r4g3baby/SimpleScore/blob/main/src/main/resources/conditions.yml)
+## Conditions (https://github.com/r4g3baby/SimpleScore/wiki/Configuration)
 # This is where you specify conditions to be used on scoreboards and scores.
 
 # You can create a condition by creating a node with the condition name and then specifying a "type" and the required
 #  attributes for that type.
 #
-# List of available types (attributes with an = are optional and default to the value shown after):
-# - HAS_PERMISSION (attributes: permission)
-#   - Checks if the player has the specified permission
-# - GREATER_THAN, LESS_THAN (attributes: input, value, orEqual=false)
-#   - Performs the specified operation between the input and value
-#   - You can use placeholders/variables in the input attribute
-#   - You can set orEqual to return true if they are equal
-# - EQUALS, CONTAINS, ENDS_WITH, STARTS_WITH (attributes: input, value, ignoreCase=false)
-#   - Performs the specified operation between the input and value
-#   - You can use placeholders/variables in the input attribute
-#   - You can set ignoreCase to true to make the operation case-insensitive
+# List of available types (attributes followed by a = are optional and default to the value shown after):
+# - HasPermission (attributes: permission, parsePermission=false)
+#   - Checks if the player has the specified permission.
+# - GreaterThan, LessThan (attributes: input, value, parseInput=true, parseValue=false, orEqual=false)
+#   - Performs the specified operation between the input and value.
+#   - You can set parseInput (true by default) and parseValue (false by default),
+#    to replace placeholders in the input and value attributes accordingly.
+#   - You can set orEqual (false by default), to return true if the input and value are equal.
+# - Equals, Contains, StartsWith, EndsWith (attributes: input, value, parseInput=true, parseValue=false, ignoreCase=false)
+#   - Performs the specified operation between the input and value.
+#   - You can set parseInput (true by default) and parseValue (false by default),
+#    to replace placeholders in the input and value attributes accordingly.
+#   - You can set ignoreCase (false by default), to make the operation case-insensitive.
 #
 # Check out the examples bellow for more information.
 
@@ -23,15 +25,35 @@ hasPermission:
   type: HasPermission
   permission: 'simplescore.example.condition'
 
-# This condition is true when the player world equals to "world"
-isOverworld:
+# Checks if a player has the specified dynamic permission ending with the current world name.
+hasWorldPermission:
+  type: HasPermission
+  permission: 'simplescore.example.%player_world%'
+  parsePermission: true
+
+# This condition is true when the player world equals to "world".
+inOverworld:
   type: Equals
-  input: '%world%'
+  input: '%player_world%'
   value: 'world'
 
-# This condition is true when the player world equals to "world_the_end"
-isTheEnd:
+# This condition is true when the player world equals to "world_the_end".
+inTheEnd:
   type: Equals
-  input: '%server_online%'
-  value: '%world_online%'
+  input: 'world_the_end'
+  parseInput: false
+  value: '%player_world%'
   parseValue: true
+
+# This condition is true the player health is below 5 hearts (10 health points).
+isLowHealth:
+  type: LessThan
+  input: '%player_health%'
+  value: 10
+
+# This condition is true when the player is in creative mode.
+inCreativeMode:
+  type: Equals
+  input: '%player_gamemode%'
+  value: 'creative'
+  ignoreCase: true
