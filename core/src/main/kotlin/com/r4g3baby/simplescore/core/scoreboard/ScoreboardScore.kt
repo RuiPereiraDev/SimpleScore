@@ -10,18 +10,18 @@ class ScoreboardScore<V : Any>(
     override val value: String,
     override val lines: List<ScoreboardLine<V>>,
     override val hideNumber: Boolean = false,
-    override val conditions: Array<Condition<V>> = emptyArray(),
+    override val conditions: List<Condition<V>> = emptyList(),
 ) : ScoreboardScore<V> {
     constructor(
-        value: Int, lines: List<ScoreboardLine<V>>, hideNumber: Boolean = false, conditions: Array<Condition<V>> = emptyArray()
+        value: Int, lines: List<ScoreboardLine<V>>, hideNumber: Boolean = false, conditions: List<Condition<V>> = emptyList()
     ) : this(value.toString(), lines, hideNumber, conditions)
 
     constructor(
-        value: String, line: ScoreboardLine<V>, hideNumber: Boolean = false, conditions: Array<Condition<V>> = emptyArray()
+        value: String, line: ScoreboardLine<V>, hideNumber: Boolean = false, conditions: List<Condition<V>> = emptyList()
     ) : this(value, listOf(line), hideNumber, conditions)
 
     constructor(
-        value: Int, line: ScoreboardLine<V>, hideNumber: Boolean = false, conditions: Array<Condition<V>> = emptyArray()
+        value: Int, line: ScoreboardLine<V>, hideNumber: Boolean = false, conditions: List<Condition<V>> = emptyList()
     ) : this(value.toString(), listOf(line), hideNumber, conditions)
 
     companion object {

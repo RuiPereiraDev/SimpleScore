@@ -9,11 +9,11 @@ import com.r4g3baby.simplescore.api.scoreboard.VarReplacer
  */
 public interface Conditional<V : Any> {
     /**
-     * An array of conditions that determine visibility within a specific context. Each condition is evaluated based on the
+     * A list of conditions that determine visibility within a specific context. Each condition is evaluated based on the
      * platform-specific player object type defined by the generic parameter V. The conditions collectively decide whether
      * a particular object can be seen by a viewer.
      */
-    public val conditions: Array<Condition<V>>
+    public val conditions: List<Condition<V>>
 
     /**
      * Determines whether an object can be seen by a specific viewer based on a set of conditions.

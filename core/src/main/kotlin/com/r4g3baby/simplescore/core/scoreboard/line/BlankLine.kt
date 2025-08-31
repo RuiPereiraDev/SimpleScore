@@ -5,9 +5,9 @@ import com.r4g3baby.simplescore.api.scoreboard.condition.Condition
 import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 
 class BlankLine<V : Any>(
-    override val conditions: Array<Condition<V>> = emptyArray()
+    override val conditions: List<Condition<V>> = emptyList()
 ) : ScoreboardLine<V>() {
-    override val textEffects: Array<TextEffect> = emptyArray()
+    override val textEffects: List<TextEffect> = emptyList()
 
     override fun tick() {}
 

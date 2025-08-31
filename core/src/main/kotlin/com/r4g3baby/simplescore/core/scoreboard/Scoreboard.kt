@@ -11,7 +11,7 @@ class Scoreboard<V : Any>(
     override val titles: List<ScoreboardLine<V>>,
     override val scores: List<ScoreboardScore<V>>,
     override val hideNumbers: Boolean = false,
-    override val conditions: Array<Condition<V>> = emptyArray()
+    override val conditions: List<Condition<V>> = emptyList()
 ) : Scoreboard<V> {
     override fun tick() {
         titles.forEach { title -> title.tick() }

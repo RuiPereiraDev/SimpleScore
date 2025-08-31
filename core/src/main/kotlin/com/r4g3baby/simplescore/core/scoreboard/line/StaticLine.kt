@@ -7,8 +7,8 @@ import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
 class StaticLine<V : Any>(
     val text: String,
     val renderEvery: Int = DEFAULT_RENDER_TICKS,
-    override val textEffects: Array<TextEffect> = emptyArray(),
-    override val conditions: Array<Condition<V>> = emptyArray()
+    override val textEffects: List<TextEffect> = emptyList(),
+    override val conditions: List<Condition<V>> = emptyList()
 ) : ScoreboardLine<V>() {
     private var currentTick = 1
 

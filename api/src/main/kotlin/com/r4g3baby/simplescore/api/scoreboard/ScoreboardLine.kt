@@ -11,10 +11,10 @@ import com.r4g3baby.simplescore.api.scoreboard.effect.TextEffect
  */
 public interface ScoreboardLine<V : Any> : Conditional<V> {
     /**
-     * An array of text effects to be applied to the line's text.
+     * A list of text effects to be applied to the line's text.
      * These effects can modify the appearance of the text, such as adding colors or animations.
      */
-    public val textEffects: Array<TextEffect>
+    public val textEffects: List<TextEffect>
 
     /**
      * A unique identifier for this line.
