@@ -39,7 +39,9 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
         plugin.getCommand(plugin.name).executor = MainCmd(plugin)
         plugin.server.pluginManager.registerEvents(PlayerListener(this), plugin)
 
-        plugin.scheduler.runTaskTimerAsync(20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler))
+        if (config.scoreboardTaskAsync) {
+            plugin.scheduler.runTaskTimerAsync(20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler))
+        } else plugin.scheduler.runTaskTimer(20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler))
     }
 
     override fun onDisable() {

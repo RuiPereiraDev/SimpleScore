@@ -43,7 +43,10 @@ worlds:
 
 ## Advanced Settings
 # Do not modify unless you know the implications.
+# Changes require a server restart.
 
 # Controls the frequency of the update task in ticks (20 ticks = 1 second).
-# Changes require a server restart.
 taskUpdateTime: 1
+
+# Controls weather the main scoreboard update task runs asynchronously or not.
+scoreboardTaskAsync: true

@@ -15,6 +15,7 @@ class MainConfig(plugin: BukkitPlugin) : BaseMainConfig<Player, YamlConfiguratio
     override val resourceName: String = "configs/main.yml"
 
     var taskUpdateTime: Long = 1
+    var scoreboardTaskAsync: Boolean = true
 
     private val _worlds = LinkedHashMap<Predicate<String>, List<String>>()
     val worlds: Map<Predicate<String>, List<String>> get() = _worlds
@@ -30,6 +31,7 @@ class MainConfig(plugin: BukkitPlugin) : BaseMainConfig<Player, YamlConfiguratio
         language = config.getString("language", language)
         checkForUpdates = config.getBoolean("checkForUpdates", checkForUpdates)
         taskUpdateTime = config.getLong("taskUpdateTime", taskUpdateTime)
+        scoreboardTaskAsync = config.getBoolean("scoreboardTaskAsync", scoreboardTaskAsync)
 
         if (config.isConfigurationSection("worlds")) {
             val worldsSec = config.getConfigurationSection("worlds")
