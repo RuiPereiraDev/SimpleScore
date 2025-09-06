@@ -38,14 +38,8 @@ class MainConfig(plugin: BukkitPlugin) : BaseMainConfig<Player, YamlConfiguratio
             worldsSec.getKeys(false).forEach { worldName ->
                 val pattern = Pattern.compile(worldName, Pattern.CASE_INSENSITIVE)
                 _worlds[pattern.asPredicate()] = when {
-                    worldsSec.isList(worldName) -> mutableListOf<String>().also { list ->
-                        worldsSec.getStringList(worldName).forEach { scoreboard ->
-                            list.add(scoreboard)
-                        }
-                    }.toList()
-
                     worldsSec.isString(worldName) -> listOf(worldsSec.getString(worldName))
-
+                    worldsSec.isList(worldName) -> worldsSec.getStringList(worldName)
                     else -> emptyList()
                 }
             }

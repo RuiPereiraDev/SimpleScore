@@ -18,20 +18,20 @@ class VarReplacer(plugin: BukkitPlugin) : VarReplacer<Player> {
         var result = if (usePlaceholderAPI) PlaceholderAPI.setPlaceholders(viewer, text) else text
 
         result = result.lazyReplace("%player_name%") { viewer.name }
-            .lazyReplace("%player_displayName%") { viewer.displayName }
+            .lazyReplace("%player_displayname%") { viewer.displayName }
             .lazyReplace("%player_uuid%") { viewer.uniqueId.toString() }
             .lazyReplace("%player_level%") { viewer.level.toString() }
-            .lazyReplace("%player_gameMode%") { viewer.gameMode.name.lowercase().replaceFirstChar { it.titlecase() } }
+            .lazyReplace("%player_gamemode%") { viewer.gameMode.name.lowercase().replaceFirstChar { it.titlecase() } }
             .lazyReplace("%player_health%") { viewer.health.roundToInt().toString() }
-            .lazyReplace("%player_maxHealth%") { viewer.maxHealth.roundToInt().toString() }
+            .lazyReplace("%player_maxhealth%") { viewer.maxHealth.roundToInt().toString() }
             .lazyReplace("%player_hearts%") {
                 val hearts = min(10, max(0, ((viewer.health / viewer.maxHealth) * 10).roundToInt()))
-                "<red>${"❤".repeat(hearts)}<black>${"❤".repeat(10 - hearts)}"
+                "&c${"❤".repeat(hearts)}&0${"❤".repeat(10 - hearts)}"
             }
+            .lazyReplace("%player_world%") { viewer.world.name }
+            .lazyReplace("%player_world_online%") { viewer.world.players.size.toString() }
             .lazyReplace("%server_online%") { viewer.server.onlinePlayers.size.toString() }
-            .lazyReplace("%server_maxPlayers%") { viewer.server.maxPlayers.toString() }
-            .lazyReplace("%world_name%") { viewer.world.name }
-            .lazyReplace("%world_online%") { viewer.world.players.size.toString() }
+            .lazyReplace("%server_maxplayers%") { viewer.server.maxPlayers.toString() }
 
         result = Adventure.parseToString(result)
         return translateColorCodes(result)

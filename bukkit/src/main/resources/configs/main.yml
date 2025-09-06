@@ -37,9 +37,8 @@ worlds:
   '^world_the_end$': [ 'the_end' ]
 
   # The default configuration for all other worlds that don't match the above patterns.
-  # The '.*' regex is the most generic wildcard, matching any character.
   # This acts as a fallback to ensure all worlds have a scoreboard.
-  '.*': [ 'default' ]
+  '[\w\s\-]*': [ 'default' ]
 
 ## Advanced Settings
 # Do not modify unless you know the implications.

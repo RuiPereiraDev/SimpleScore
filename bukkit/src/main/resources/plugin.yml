@@ -27,6 +27,12 @@ permissions:
     description: Allows user to force other players scoreboards
     children:
       simplescore.cmd.force: true
+  simplescore.cmd.info:
+    description: Grants access to the info command
+  simplescore.cmd.info.other:
+    description: Allows user to see other players scoreboard information
+    children:
+      simplescore.cmd.info: true
   simplescore.cmd.reload:
     description: Grants access to the reload command
   simplescore.cmd.toggle:

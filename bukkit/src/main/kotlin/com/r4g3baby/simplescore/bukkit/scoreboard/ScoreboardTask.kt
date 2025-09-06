@@ -9,6 +9,8 @@ class ScoreboardTask(
     private val manager: BukkitManager,
     private val protocolHandler: ProtocolHandler
 ) : Runnable {
+    private val emptyTitle = ObjectiveTitle("-1", "")
+
     override fun run() {
         manager.scoreboards.forEach { scoreboard ->
             scoreboard.tick()
@@ -26,7 +28,7 @@ class ScoreboardTask(
             }
 
             val title = scoreboard.getTitle(player, manager.varReplacer).let { line ->
-                if (line == null) return@let ObjectiveTitle("-1", "")
+                if (line == null) return@let emptyTitle
 
                 val currentTitle = playerObjective?.title
                 if (currentTitle == null || currentTitle.lineIdentifier != line.identifier || line.shouldRender()) {
