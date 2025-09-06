@@ -12,7 +12,16 @@ data class LessThan<V : Any>(
     override fun check(viewer: V, varReplacer: VarReplacer<V>): Boolean {
         val parsedInput = if (parseInput) varReplacer.replace(input, viewer) else input
         val parsedValue = if (parseValue) varReplacer.replace(value, viewer) else value
-        val compareResult = parsedInput.compareTo(parsedValue)
-        return if (orEqual) compareResult <= 0 else compareResult < 0
+
+        val inputAsDouble = parsedInput.toDoubleOrNull()
+        val valueAsDouble = parsedValue.toDoubleOrNull()
+
+        return if (inputAsDouble != null && valueAsDouble != null) {
+            val numericCompareResult = inputAsDouble.compareTo(valueAsDouble)
+            if (orEqual) numericCompareResult <= 0 else numericCompareResult < 0
+        } else {
+            val stringCompareResult = parsedInput.compareTo(parsedValue)
+            if (orEqual) stringCompareResult <= 0 else stringCompareResult < 0
+        }
     }
 }
