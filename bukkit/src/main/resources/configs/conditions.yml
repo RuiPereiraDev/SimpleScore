@@ -5,14 +5,15 @@
 #  attributes for that type.
 #
 # List of available types (attributes followed by a = are optional and default to the value shown after):
-# - HasPermission (attributes: permission, parsePermission=false)
+# - HasPermission (attributes: permission, parsePermission=false):
 #   - Checks if the player has the specified permission.
-# - GreaterThan, LessThan (attributes: input, value, parseInput=true, parseValue=false, orEqual=false)
+#   - You can set parsePermission (false by default), to replace placeholders in the permission attribute.
+# - GreaterThan, LessThan (attributes: input, value, parseInput=true, parseValue=false, orEqual=false):
 #   - Performs the specified operation between the input and value.
 #   - You can set parseInput (true by default) and parseValue (false by default),
 #    to replace placeholders in the input and value attributes accordingly.
 #   - You can set orEqual (false by default), to return true if the input and value are equal.
-# - Equals, Contains, StartsWith, EndsWith (attributes: input, value, parseInput=true, parseValue=false, ignoreCase=false)
+# - Equals, Contains, StartsWith, EndsWith (attributes: input, value, parseInput=true, parseValue=false, ignoreCase=false):
 #   - Performs the specified operation between the input and value.
 #   - You can set parseInput (true by default) and parseValue (false by default),
 #    to replace placeholders in the input and value attributes accordingly.
@@ -25,7 +26,7 @@ hasPermission:
   type: HasPermission
   permission: 'simplescore.example.condition'
 
-# Checks if a player has the specified dynamic permission ending with the current world name.
+# Checks if a player has the specified dynamic permission ending with the current player world name.
 hasWorldPermission:
   type: HasPermission
   permission: 'simplescore.example.%player_world%'
