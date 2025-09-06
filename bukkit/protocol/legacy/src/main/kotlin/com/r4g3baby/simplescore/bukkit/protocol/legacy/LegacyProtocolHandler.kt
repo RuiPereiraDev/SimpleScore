@@ -23,8 +23,9 @@ open class LegacyProtocolHandler : ProtocolHandler() {
         return playerObjectives.computeIfAbsent(player.uniqueId) {
             with(ChannelInjector.getChannel(player)) {
                 val objectiveName = getObjectiveName(player)
+                val titleText = title.text.take(32)
                 writePackets(
-                    WrappedUpdateObjective(objectiveName, Mode.CREATE, Type.INTEGER, title.text),
+                    WrappedUpdateObjective(objectiveName, Mode.CREATE, Type.INTEGER, titleText),
                     WrappedDisplayObjective(objectiveName, Position.SIDEBAR)
                 )
             }
@@ -54,7 +55,8 @@ open class LegacyProtocolHandler : ProtocolHandler() {
             val objectiveName = getObjectiveName(player)
 
             if (playerObjective.title != title) {
-                writePacket(WrappedUpdateObjective(objectiveName, Mode.UPDATE, Type.INTEGER, title.text))
+                val titleText = title.text.take(32)
+                writePacket(WrappedUpdateObjective(objectiveName, Mode.UPDATE, Type.INTEGER, titleText))
             }
 
             val objectiveScores = mutableMapOf<String, ObjectiveScore>()
