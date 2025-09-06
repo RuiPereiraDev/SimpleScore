@@ -71,10 +71,15 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
 
         // Refresh player scoreboards
         plugin.server.onlinePlayers.forEach { player ->
-            getOrCreateViewer(player).apply {
-                onViewerChangeWorld(this, player.world)
-                onViewerChangeLocation(this, player.location)
+            val viewer = getOrCreateViewer(player)
+
+            viewer.getScoreboard(plugin.provider)?.let { forcedScoreboard ->
+                val scoreboard = plugin.manager.getScoreboard(forcedScoreboard.name)
+                viewer.setScoreboard(scoreboard, plugin.provider, Priority.Highest)
             }
+
+            onViewerChangeWorld(viewer, player.world)
+            onViewerChangeLocation(viewer, player.location)
         }
     }
 
