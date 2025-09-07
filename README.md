@@ -1,11 +1,11 @@
 [![SimpleScore Logo]][GitHub]
 
-[![Latest Release](https://ruipereira.dev/api/badge/release/SimpleScore)](https://github.com/r4g3baby/SimpleScore/releases/latest)
+[![Latest Release](https://ruipereira.dev/api/badge/release/SimpleScore)](https://github.com/RuiPereiraDev/SimpleScore/releases/latest)
 [![Downloads](https://ruipereira.dev/api/badge/downloads/SimpleScore)][SpigotMC]
 [![Discord](https://ruipereira.dev/api/badge/discord)][Discord]
 [![Servers](https://ruipereira.dev/api/badge/servers/SimpleScore)][bStats]
 [![Players](https://ruipereira.dev/api/badge/players/SimpleScore)][bStats]
-[![License](https://img.shields.io/github/license/r4g3baby/SimpleScore)](https://github.com/r4g3baby/SimpleScore/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/RuiPereiraDev/SimpleScore)](https://github.com/RuiPereiraDev/SimpleScore/blob/main/LICENSE)
 
 # Information
 [SimpleScore][GitHub] is a plugin for Minecraft servers that allows server owners to display various information to their players using Minecraft's built-in scoreboard system.
@@ -24,25 +24,25 @@ Also comes with support for [PlaceholderAPI][PlaceholderAPI], allowing you to ho
 - Any message sent by the plugin can be modified either by the built-in translation system or by providing a custom messages file
 
 ## More Information
-### [Installation](https://github.com/r4g3baby/SimpleScore/wiki/Installation) - [Configuration](https://github.com/r4g3baby/SimpleScore/wiki/Configuration) - [Commands](https://github.com/r4g3baby/SimpleScore/wiki/Commands)
+### [Installation](https://github.com/RuiPereiraDev/SimpleScore/wiki/Installation) - [Configuration](https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration) - [Commands](https://github.com/RuiPereiraDev/SimpleScore/wiki/Commands)
 
 ### Download Links
-[GitHub](https://github.com/r4g3baby/SimpleScore/releases/latest) - [Modrinth][Modrinth] - [SpigotMC][SpigotMC] - [PaperMC][PaperMC]
+[GitHub](https://github.com/RuiPereiraDev/SimpleScore/releases/latest) - [Modrinth][Modrinth] - [SpigotMC][SpigotMC] - [PaperMC][PaperMC]
 
 ### Quick Links
-[Discord][Discord] - [Issues](https://github.com/r4g3baby/SimpleScore/issues) - [Wiki](https://github.com/r4g3baby/SimpleScore/wiki) - [bStats][bStats]
+[Discord][Discord] - [Issues](https://github.com/RuiPereiraDev/SimpleScore/issues) - [Wiki](https://github.com/RuiPereiraDev/SimpleScore/wiki) - [bStats][bStats]
 
 ## Support
 If you find [SimpleScore][GitHub] useful and would like to support its development, please consider following, rating or reviewing the project on its respective platform, such as [Modrinth][Modrinth], [SpigotMC][SpigotMC] or [PaperMC][PaperMC].
 
-Starring the project on [GitHub][GitHub] or [following me](https://github.com/r4g3baby) is an easy way to show your support. It helps increase the visibility of [SimpleScore][GitHub] and encourages others to check it out.
+Starring the project on [GitHub][GitHub] or [following me](https://github.com/RuiPereiraDev) is an easy way to show your support. It helps increase the visibility of [SimpleScore][GitHub] and encourages others to check it out.
 
 I also accept financial support via [GitHub Sponsors][Sponsors] or a one-time donation via [PayPal][PayPal] to show your appreciation for the project.
 
 
-[SimpleScore Logo]: https://raw.githubusercontent.com/r4g3baby/SimpleScore/main/.github/SimpleScore.png
+[SimpleScore Logo]: https://raw.githubusercontent.com/RuiPereiraDev/SimpleScore/main/.github/SimpleScore.png
 
-[GitHub]: https://github.com/r4g3baby/SimpleScore
+[GitHub]: https://github.com/RuiPereiraDev/SimpleScore
 [Modrinth]: https://modrinth.com/plugin/simplescore
 [SpigotMC]: https://www.spigotmc.org/resources/23243/
 [PaperMC]: https://hangar.papermc.io/r4g3baby/SimpleScore
@@ -50,7 +50,7 @@ I also accept financial support via [GitHub Sponsors][Sponsors] or a one-time do
 [Discord]: https://discord.gg/cJnzTDGphE
 [bStats]: https://bstats.org/plugin/bukkit/SimpleScore/644
 
-[Sponsors]: https://github.com/sponsors/r4g3baby
+[Sponsors]: https://github.com/sponsors/RuiPereiraDev
 [PayPal]: https://paypal.me/RageBaby
 
 [WorldGuard]: https://dev.bukkit.org/projects/worldguard

@@ -60,7 +60,7 @@ allprojects {
                         "version" to rootProject.version,
                         "description" to "A simple animated scoreboard plugin for your server.",
                         "package" to "${rootProject.group}.${rootProject.name.lowercase()}",
-                        "website" to "https://r4g3baby.com"
+                        "website" to "https://ruipereira.dev"
                     )
                 )
             }
