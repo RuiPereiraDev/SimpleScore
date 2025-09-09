@@ -27,11 +27,11 @@ class ScoreboardScore<V : Any>(
     companion object {
         private val counter = AtomicInteger(0)
         fun getNextIdentifier(): String {
-            return counter.getAndIncrement().toString()
+            return "sbs${counter.getAndIncrement()}"
         }
     }
 
-    override val identifier = getNextIdentifier()
+    override val uid = getNextIdentifier()
 
     private val valueAsInt = value.toIntOrNull()
     override fun getValueAsInteger(viewer: V, varReplacer: VarReplacer<V>): Int? {

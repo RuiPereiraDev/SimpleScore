@@ -11,9 +11,9 @@ abstract class ScoreboardLine<V : Any> : ScoreboardLine<V> {
 
         private val counter = AtomicInteger(0)
         fun getNextIdentifier(): String {
-            return counter.getAndIncrement().toString()
+            return "sbl${counter.getAndIncrement()}"
         }
     }
 
-    override val identifier = getNextIdentifier()
+    override val uid = getNextIdentifier()
 }

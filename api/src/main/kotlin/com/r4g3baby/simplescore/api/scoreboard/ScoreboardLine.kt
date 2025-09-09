@@ -20,7 +20,7 @@ public interface ScoreboardLine<V : Any> : Conditional<V> {
      * A unique identifier for this line.
      * This is used to distinguish between different lines in the scoreboard.
      */
-    public val identifier: String
+    public val uid: String
 
     /**
      * Updates the state of the line for the next frame.

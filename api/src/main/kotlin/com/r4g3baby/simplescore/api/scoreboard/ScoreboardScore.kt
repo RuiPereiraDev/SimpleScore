@@ -13,7 +13,7 @@ public interface ScoreboardScore<V : Any> : Conditional<V> {
      * A unique identifier for this score entry.
      * This is used to distinguish between different score entries in the scoreboard.
      */
-    public val identifier: String
+    public val uid: String
 
     /**
      * The score value as a string.

@@ -31,8 +31,8 @@ class ScoreboardTask(
                 if (line == null) return@let emptyTitle
 
                 val currentTitle = playerObjective?.title
-                if (currentTitle == null || currentTitle.lineIdentifier != line.identifier || line.shouldRender()) {
-                    ObjectiveTitle(line.identifier, line.currentText(player, manager.varReplacer))
+                if (currentTitle == null || currentTitle.lineUID != line.uid || line.shouldRender()) {
+                    ObjectiveTitle(line.uid, line.currentText(player, manager.varReplacer))
                 } else currentTitle
             }
 
@@ -43,12 +43,12 @@ class ScoreboardTask(
                 val value = scoreboardScore.getValueAsInteger(player, manager.varReplacer) ?: return@scoresForEach
                 val line = scoreboardScore.getLine(player, manager.varReplacer) ?: return@scoresForEach
 
-                val currentScore = playerObjective.scores[scoreboardScore.identifier]
-                val text = if (currentScore == null || currentScore.lineIdentifier != line.identifier || line.shouldRender()) {
+                val currentScore = playerObjective.scores[scoreboardScore.uid]
+                val text = if (currentScore == null || currentScore.lineUID != line.uid || line.shouldRender()) {
                     line.currentText(player, manager.varReplacer)
                 } else currentScore.text
 
-                scores[scoreboardScore.identifier] = ObjectiveScore(line.identifier, text, value, scoreboardScore.hideNumber)
+                scores[scoreboardScore.uid] = ObjectiveScore(line.uid, text, value, scoreboardScore.hideNumber)
             }
 
             protocolHandler.updateScoreboard(player, title, scores)
