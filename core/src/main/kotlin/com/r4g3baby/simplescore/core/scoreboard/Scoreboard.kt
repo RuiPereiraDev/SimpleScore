@@ -10,7 +10,6 @@ class Scoreboard<V : Any>(
     override val name: String,
     override val titles: List<ScoreboardLine<V>>,
     override val scores: List<ScoreboardScore<V>>,
-    override val hideNumbers: Boolean = false,
     override val conditions: List<Condition<V>> = emptyList()
 ) : Scoreboard<V> {
     override fun tick() {
@@ -27,6 +26,6 @@ class Scoreboard<V : Any>(
     }
 
     override fun toString(): String {
-        return "Scoreboard(name=$name, titles=$titles, scores=$scores, hideNumbers=$hideNumbers, conditions=$conditions)"
+        return "Scoreboard(name=$name, titles=$titles, scores=$scores, conditions=$conditions)"
     }
 }

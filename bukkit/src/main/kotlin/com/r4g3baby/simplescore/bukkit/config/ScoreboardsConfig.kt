@@ -34,32 +34,37 @@ class ScoreboardsConfig(
         config.getKeys(false).forEach { name ->
             val section = config.getConfigurationSection(name) ?: return@forEach
 
-            val titles = section.parseScoreboardLines("titles")
-            val scores = section.parseScoreboardScores()
-            val hideNumbers = section.getBoolean("hideNumbers", false)
+            val defaultHideNumber = section.getBoolean("defaultHideNumber", false)
+            val defaultVisibleFor = section.getInt("defaultVisibleFor", DEFAULT_VISIBLE_TICKS)
+            val defaultRenderEvery = section.getInt("defaultRenderEvery", DEFAULT_RENDER_TICKS)
+
+            val titles = section.parseScoreboardLines("titles", defaultVisibleFor, defaultRenderEvery)
+            val scores = section.parseScoreboardScores(defaultHideNumber, defaultVisibleFor, defaultRenderEvery)
             val conditions = section.parseConditions()
 
-            scoreboards[name] = Scoreboard(name, titles, scores, hideNumbers, conditions)
+            scoreboards[name] = Scoreboard(name, titles, scores, conditions)
         }
     }
 
-    private fun ConfigurationSection.parseScoreboardScores(): List<ScoreboardScore<Player>> {
+    private fun ConfigurationSection.parseScoreboardScores(defaultHideNumber: Boolean, defaultVisibleFor: Int, defaultRenderEvery: Int): List<ScoreboardScore<Player>> {
         return when {
             isList("scores") -> {
                 val scoresMapList = getMapList("scores")
                 mutableListOf<ScoreboardScore<Player>>().also { scores ->
                     scoresMapList.forEachIndexed forEachScore@{ i, scoreMap ->
-                        val section = MemoryConfiguration().createSection("${this.currentPath}.scores[$i]").apply {
+                        val scoreSec = MemoryConfiguration().createSection("${this.currentPath}.scores[$i]").apply {
                             scoreMap.forEach { (key, value) -> addDefault(key.toString(), value) }
                         }
 
-                        val score = section.get("score")?.toString() ?: run {
-                            plugin.logger.warning("Missing 'score' value for '${section.currentPath}'.")
+                        val score = scoreSec.get("score")?.toString() ?: run {
+                            plugin.logger.warning("Missing 'score' value for '${scoreSec.currentPath}'.")
                             return@forEachScore
                         }
-                        val lines = section.parseScoreboardLines("lines")
-                        val hideNumber = section.getBoolean("hideNumber", false)
-                        val conditions = section.parseConditions()
+                        val lines = scoreSec.parseScoreboardLines("lines", defaultVisibleFor, defaultRenderEvery)
+                        val conditions = scoreSec.parseConditions()
+
+                        var hideNumber = scoreSec.get("hideNumber")
+                        if (hideNumber !is Boolean) hideNumber = defaultHideNumber
 
                         scores.add(ScoreboardScore(score, lines, hideNumber, conditions))
                     }
@@ -71,15 +76,15 @@ class ScoreboardsConfig(
                 mutableListOf<ScoreboardScore<Player>>().also { scores ->
                     section.getKeys(false).forEach forEachScore@{ score ->
                         val scoreSec = section.getConfigurationSection(score) ?: run {
-                            scores.add(ScoreboardScore(score, section.parseScoreboardLines(score)))
+                            val lines = section.parseScoreboardLines(score, defaultVisibleFor, defaultRenderEvery)
+                            scores.add(ScoreboardScore(score, lines))
                             return@forEachScore
                         }
 
-                        val lines = scoreSec.parseScoreboardLines("lines")
-                        val hideNumber = scoreSec.getBoolean("hideNumber", false)
+                        val lines = scoreSec.parseScoreboardLines("lines", defaultVisibleFor, defaultRenderEvery)
+                        val hideNumber = scoreSec.getBoolean("hideNumber", defaultHideNumber)
                         val conditions = scoreSec.parseConditions()
                         scores.add(ScoreboardScore(score, lines, hideNumber, conditions))
-
                     }
                 }
             }
@@ -91,11 +96,11 @@ class ScoreboardsConfig(
         }
     }
 
-    private fun ConfigurationSection.parseScoreboardLines(path: String): List<ScoreboardLine<Player>> {
+    private fun ConfigurationSection.parseScoreboardLines(path: String, defaultVisibleFor: Int, defaultRenderEvery: Int): List<ScoreboardLine<Player>> {
         return when {
             isString(path) -> {
                 val text = getString(path)
-                listOf(if (text.isBlank()) BlankLine() else StaticLine(text))
+                listOf(if (text.isBlank()) BlankLine() else StaticLine(text, defaultRenderEvery))
             }
 
             isList(path) -> {
@@ -104,7 +109,7 @@ class ScoreboardsConfig(
                         getList(path).forEachIndexed { i, line ->
                             if (line !is Map<*, *>) {
                                 if (line is String) {
-                                    lineList.add(StaticLine(line))
+                                    lineList.add(StaticLine(line, defaultRenderEvery))
                                     return@forEachIndexed
                                 }
                                 plugin.logger.warning("Invalid frame value for '${this.currentPath}.$path[$i]'.")
@@ -115,19 +120,19 @@ class ScoreboardsConfig(
                                 line.forEach { (key, value) -> addDefault(key.toString(), value) }
                             }
                             if (section.contains("frames")) {
-                                lineList.add(section.parseAnimatedLine())
-                            } else lineList.add(section.parseStaticLine())
+                                lineList.add(section.parseAnimatedLine(defaultVisibleFor, defaultRenderEvery))
+                            } else lineList.add(section.parseStaticLine(defaultRenderEvery))
                         }
                     }
                 } else listOf(AnimatedLine(getStringList(path).map {
-                    AnimatedLine.Frame(it)
+                    AnimatedLine.Frame(it, defaultVisibleFor, defaultRenderEvery)
                 }))
             }
 
             isConfigurationSection(path) -> {
                 if (contains("frames")) {
-                    listOf(parseAnimatedLine())
-                } else listOf(parseStaticLine())
+                    listOf(parseAnimatedLine(defaultVisibleFor, defaultRenderEvery))
+                } else listOf(parseStaticLine(defaultRenderEvery))
             }
 
             else -> {
@@ -137,45 +142,46 @@ class ScoreboardsConfig(
         }
     }
 
-    private fun ConfigurationSection.parseStaticLine(): ScoreboardLine<Player> {
+    private fun ConfigurationSection.parseStaticLine(defaultRenderEvery: Int): ScoreboardLine<Player> {
+        val textEffects = emptyList<TextEffect>()
+        val conditions = parseConditions()
+
         val text = getString("text") ?: run {
             plugin.logger.warning("Missing 'text' value for '${this.currentPath}'.")
-            return BlankLine()
+            return BlankLine(conditions)
         }
 
         var renderEvery = get("renderEvery")
-        if (renderEvery !is Int) renderEvery = DEFAULT_RENDER_TICKS
-
-        val textEffects = emptyList<TextEffect>()
-        val conditions = parseConditions()
+        if (renderEvery !is Int) renderEvery = defaultRenderEvery
 
         return if (!text.isBlank()) {
             StaticLine(text, renderEvery, textEffects, conditions)
         } else BlankLine(conditions)
     }
 
-    private fun ConfigurationSection.parseAnimatedLine(): ScoreboardLine<Player> {
+    private fun ConfigurationSection.parseAnimatedLine(defaultVisibleFor: Int, defaultRenderEvery: Int): ScoreboardLine<Player> {
+        val textEffects = emptyList<TextEffect>()
+        val conditions = parseConditions()
+
         val textFrames = getList("frames") ?: run {
             if (isString("frames")) {
-                val textEffects = emptyList<TextEffect>()
-                val conditions = parseConditions()
-                return StaticLine(getString("frames"), DEFAULT_RENDER_TICKS, textEffects, conditions)
+                return StaticLine(getString("frames"), defaultRenderEvery, textEffects, conditions)
             }
             plugin.logger.warning("Missing 'frames' value for '${this.currentPath}'.")
-            return BlankLine()
+            return BlankLine(conditions)
         }
 
         val frames = mutableListOf<AnimatedLine.Frame>()
         textFrames.forEachIndexed { i, frame ->
             when (frame) {
-                is String -> frames.add(AnimatedLine.Frame(frame))
+                is String -> frames.add(AnimatedLine.Frame(frame, defaultVisibleFor, defaultRenderEvery))
 
                 is Map<*, *> -> {
                     var visibleFor = frame["visibleFor"]
-                    if (visibleFor !is Int) visibleFor = DEFAULT_VISIBLE_TICKS
+                    if (visibleFor !is Int) visibleFor = defaultVisibleFor
 
                     var renderEvery = frame["renderEvery"]
-                    if (renderEvery !is Int) renderEvery = DEFAULT_RENDER_TICKS
+                    if (renderEvery !is Int) renderEvery = defaultRenderEvery
 
                     val text = frame["text"] ?: run {
                         plugin.logger.warning("Missing text value for frame '${this.currentPath}[$i]'.")
@@ -190,9 +196,6 @@ class ScoreboardsConfig(
                 }
             }
         }
-
-        val textEffects = emptyList<TextEffect>()
-        val conditions = parseConditions()
 
         return AnimatedLine(frames, textEffects, conditions)
     }

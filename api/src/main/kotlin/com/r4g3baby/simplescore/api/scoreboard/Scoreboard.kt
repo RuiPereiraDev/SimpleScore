@@ -27,12 +27,6 @@ public interface Scoreboard<V : Any> : Conditional<V> {
     public val scores: List<ScoreboardScore<V>>
 
     /**
-     * Determines whether the numeric values of scores should be hidden.
-     * If true, only the text content of scores will be displayed.
-     */
-    public val hideNumbers: Boolean
-
-    /**
      * Updates the state of the scoreboard for the next frame.
      * This method is called periodically to animate titles and scores.
      */

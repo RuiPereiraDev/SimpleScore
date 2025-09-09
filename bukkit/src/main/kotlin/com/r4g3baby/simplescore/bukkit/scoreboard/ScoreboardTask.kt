@@ -48,8 +48,7 @@ class ScoreboardTask(
                     line.currentText(player, manager.varReplacer)
                 } else currentScore.text
 
-                val hideNumber = scoreboard.hideNumbers || scoreboardScore.hideNumber
-                scores[scoreboardScore.identifier] = ObjectiveScore(line.identifier, text, value, hideNumber)
+                scores[scoreboardScore.identifier] = ObjectiveScore(line.identifier, text, value, scoreboardScore.hideNumber)
             }
 
             protocolHandler.updateScoreboard(player, title, scores)
