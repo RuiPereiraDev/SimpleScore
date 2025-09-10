@@ -30,14 +30,11 @@ worlds:
   # check and display the 'economy' scoreboard if its conditions are met.
   '^survival_\w+$': [ 'survival', 'economy' ]
 
-  # For worlds starting with 'parkour' or 'skyblock' in their names, set the 'minigame' scoreboard.
-  '^(parkour|skyblock).*$': [ 'minigame' ]
-
-  # Sets the 'the_end' scoreboard specifically for the default End world.
-  '^world_the_end$': [ 'the_end' ]
+  # Sets the 'worldTheEnd' scoreboard specifically for the default End world.
+  '^world_the_end$': [ 'worldTheEnd' ]
 
   # The default configuration for all other worlds that don't match the above patterns.
-  # This acts as a fallback to ensure all worlds have a scoreboard.
+  # This acts as a fallback to ensure all worlds have the default scoreboard.
   '[\w\s\-]*': [ 'default' ]
 
 ## Advanced Settings
