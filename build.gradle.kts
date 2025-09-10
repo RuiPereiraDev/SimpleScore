@@ -126,12 +126,9 @@ fun mapVersions(propertyName: String): Provider<List<String>> = provider {
 }
 
 fun generateChangelog(): Provider<String> = provider {
-    val tags = ByteArrayOutputStream().apply {
-        providers.exec {
-            commandLine("git", "tag", "--sort", "version:refname")
-            standardOutput = this@apply
-        }
-    }.toString(Charsets.UTF_8.name()).trim().split("\n")
+    val tags = providers.exec {
+        commandLine("git", "tag", "--sort", "version:refname")
+    }.standardOutput.asText.get().trim().split("\n")
 
     val tagsRange = if (tags.size > 1) {
         "${tags[tags.size - 2]}...${tags[tags.size - 1]}"
@@ -141,10 +138,9 @@ fun generateChangelog(): Provider<String> = provider {
     val changelog = ByteArrayOutputStream().apply {
         write("### Commits:\n".toByteArray())
 
-        providers.exec {
+        write(providers.exec {
             commandLine("git", "log", tagsRange, "--pretty=format:- [%h]($repoUrl/commit/%H) %s", "--reverse")
-            standardOutput = this@apply
-        }
+        }.standardOutput.asBytes.get())
 
         write("\n\nCompare Changes: [$tagsRange]($repoUrl/compare/$tagsRange)".toByteArray())
     }.toString(Charsets.UTF_8.name())
