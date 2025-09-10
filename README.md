@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/github/license/RuiPereiraDev/SimpleScore)](https://github.com/RuiPereiraDev/SimpleScore/blob/main/LICENSE)
 
 # Information
-[SimpleScore][GitHub] is a plugin for Minecraft servers that allows server owners to display various information to their players using Minecraft's built-in scoreboard system.
+[SimpleScore][GitHub] is a powerful yet easy-to-use plugin that lets you bring your Minecraft server to life with fully customized scoreboards. Display key information, announcements, player stats and much more in real-time!
 
 Supports selecting and showing specific scoreboards to players based on their permissions, certain conditions, the current world, or even the [WorldGuard][WorldGuard] region they are inside with a very simple and intuitive configuration system.
 
@@ -16,11 +16,12 @@ Also comes with support for [PlaceholderAPI][PlaceholderAPI], allowing you to ho
 
 ## Main Features
 - A lag-free, fully animated scoreboard with no flickering
+- Support for newer features such as hiding score numbers
 - Full RGB colour support on 1.16 servers or newer
-- Supports all major Minecraft versions from 1.8.x to 1.20.x
+- Supports all major Minecraft versions from 1.8.x to 1.21.x
 - Can display scoreboards based on permissions, conditions, worlds and regions
 - No character limit on 1.13 servers or newer (limited to 32 characters on older versions)
-- Fully compatible with any other plugins that temporarily changes the scoreboard
+- Should be compatible with any other plugins that temporarily change the scoreboard
 - Any message sent by the plugin can be modified either by the built-in translation system or by providing a custom messages file
 
 ## More Information
@@ -32,13 +33,12 @@ Also comes with support for [PlaceholderAPI][PlaceholderAPI], allowing you to ho
 ### Quick Links
 [Discord][Discord] - [Issues](https://github.com/RuiPereiraDev/SimpleScore/issues) - [Wiki](https://github.com/RuiPereiraDev/SimpleScore/wiki) - [bStats][bStats]
 
-## Support
-If you find [SimpleScore][GitHub] useful and would like to support its development, please consider following, rating or reviewing the project on its respective platform, such as [Modrinth][Modrinth], [SpigotMC][SpigotMC] or [PaperMC][PaperMC].
+## Show Your Support
+Like [SimpleScore][GitHub]? Your support helps keep this project updated and bug-free for everyone. The easiest ways to help are by:
+* ⭐ Star the project on [GitHub][GitHub] and/or [follow me](https://github.com/RuiPereiraDev).
+* 👍 Follow, rate, or review on [Modrinth][Modrinth], [SpigotMC][SpigotMC] or [PaperMC][PaperMC].
 
-Starring the project on [GitHub][GitHub] or [following me](https://github.com/RuiPereiraDev) is an easy way to show your support. It helps increase the visibility of [SimpleScore][GitHub] and encourages others to check it out.
-
-I also accept financial support via [GitHub Sponsors][Sponsors] or a one-time donation via [PayPal][PayPal] to show your appreciation for the project.
-
+For those who want to show their appreciation with a financial contribution, you can do so via [GitHub Sponsors][Sponsors] or a one-time donation via [PayPal][PayPal].
 
 [SimpleScore Logo]: https://raw.githubusercontent.com/RuiPereiraDev/SimpleScore/main/.github/SimpleScore.png
 
