@@ -16,8 +16,9 @@ class Info(private val plugin: BukkitPlugin) : SubCmd(plugin, "info") {
             }
 
             val viewer = plugin.manager.getOrCreateViewer(sender)
-            sender.sendMessage("scoreboard: ${viewer.scoreboard?.name}")
-            sender.sendMessage("isScoreboardHidden: ${viewer.isScoreboardHidden}")
+            sender.sendMessage(plugin.i18n.t("cmd.info.header"))
+            sender.sendMessage(plugin.i18n.t("cmd.info.scoreboard", viewer.scoreboard?.name ?: "none"))
+            sender.sendMessage(plugin.i18n.t("cmd.info.isHidden", viewer.isScoreboardHidden))
         } else {
             if (args.isNotEmpty()) return targetOther(sender, args)
             sender.sendMessage(plugin.i18n.t("cmd.info.usage.console"))
@@ -29,8 +30,9 @@ class Info(private val plugin: BukkitPlugin) : SubCmd(plugin, "info") {
         if (target == null) return sender.sendMessage(plugin.i18n.t("cmd.notOnline"))
 
         val viewer = plugin.manager.getOrCreateViewer(target)
-        sender.sendMessage("scoreboard: ${viewer.scoreboard?.name}")
-        sender.sendMessage("isScoreboardHidden: ${viewer.isScoreboardHidden}")
+        sender.sendMessage(plugin.i18n.t("cmd.info.other.header", target.name))
+        sender.sendMessage(plugin.i18n.t("cmd.info.scoreboard", viewer.scoreboard?.name ?: "none"))
+        sender.sendMessage(plugin.i18n.t("cmd.info.isHidden", viewer.isScoreboardHidden))
     }
 
     override fun onTabComplete(sender: CommandSender, args: Array<out String>): List<String> {
