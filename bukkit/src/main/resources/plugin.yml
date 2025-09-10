@@ -1,0 +1,45 @@
+name: @name@
+version: @version@
+main: @package@.BukkitPlugin
+softdepend: [WorldGuard, PlaceholderAPI]
+authors: [R4G3_BABY]
+description: "@description@"
+website: @website@
+api-version: "1.13"
+folia-supported: true
+
+commands:
+  SimpleScore:
+    description: Manage plugin functionalities
+    aliases: [sb]
+    usage: /<command> [args]
+
+permissions:
+  simplescore.*:
+    description: Grants all SimpleScore permissions
+    children:
+      simplescore.cmd.*: true
+  simplescore.cmd.*:
+    description: Grants access to all SimpleScore commands
+  simplescore.cmd.force:
+    description: Grants access to the force command
+  simplescore.cmd.force.other:
+    description: Allows user to force other players scoreboards
+    children:
+      simplescore.cmd.force: true
+  simplescore.cmd.info:
+    description: Grants access to the info command
+  simplescore.cmd.info.other:
+    description: Allows user to see other players scoreboard information
+    children:
+      simplescore.cmd.info: true
+  simplescore.cmd.reload:
+    description: Grants access to the reload command
+  simplescore.cmd.toggle:
+    description: Grants access to the toggle command
+  simplescore.cmd.toggle.other:
+    description: Allows user to toggle other players scoreboards
+    children:
+      simplescore.cmd.toggle: true
+  simplescore.cmd.version:
+    description: Grants access to the version command

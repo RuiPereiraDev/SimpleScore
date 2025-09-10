@@ -1,0 +1,60 @@
+## Conditions (https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration)
+# This is where you specify conditions to be used on scoreboards and scores.
+
+# You can create a condition by creating a node with the condition name and then specifying a "type" and the required
+#  attributes for that type.
+#
+# List of available types (attributes followed by a = are optional and default to the value shown after):
+# - HasPermission (attributes: permission, parsePermission=false):
+#   - Checks if the player has the specified permission.
+#   - You can set parsePermission (false by default), to replace placeholders in the permission attribute.
+# - GreaterThan, LessThan (attributes: input, value, parseInput=true, parseValue=false, orEqual=false):
+#   - Performs the specified operation between the input and value.
+#   - You can set parseInput (true by default) and parseValue (false by default),
+#    to replace placeholders in the input and value attributes accordingly.
+#   - You can set orEqual (false by default), to return true if the input and value are equal.
+# - Equals, Contains, StartsWith, EndsWith (attributes: input, value, parseInput=true, parseValue=false, ignoreCase=false):
+#   - Performs the specified operation between the input and value.
+#   - You can set parseInput (true by default) and parseValue (false by default),
+#    to replace placeholders in the input and value attributes accordingly.
+#   - You can set ignoreCase (false by default), to make the operation case-insensitive.
+#
+# Check out the examples bellow for more information.
+
+# Checks if a player has the specified permission.
+hasPermission:
+  type: HasPermission
+  permission: 'simplescore.example.condition'
+
+# Checks if a player has the specified dynamic permission ending with the current player world name.
+hasWorldPermission:
+  type: HasPermission
+  permission: 'simplescore.example.%player_world%'
+  parsePermission: true
+
+# This condition is true when the player world equals to "world".
+inOverworld:
+  type: Equals
+  input: '%player_world%'
+  value: 'world'
+
+# This condition is true when the player world equals to "world_the_end".
+inTheEnd:
+  type: Equals
+  input: 'world_the_end'
+  parseInput: false
+  value: '%player_world%'
+  parseValue: true
+
+# This condition is true the player health is below 5 hearts (10 health points).
+isLowHealth:
+  type: LessThan
+  input: '%player_health%'
+  value: 10
+
+# This condition is true when the player is in creative mode.
+inCreativeMode:
+  type: Equals
+  input: '%player_gamemode%'
+  value: 'creative'
+  ignoreCase: true

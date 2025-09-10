@@ -1,0 +1,36 @@
+[versions]
+# plugins
+kotlin = "2.2.10"
+shadowJar = "9.1.0"
+hangar = "0.1.3"
+minotaur = "2.8.8"
+
+# libraries
+bukkit = "1.8.8-R0.1-SNAPSHOT"
+netty = "4.1.97.Final"
+papi = "2.11.6"
+adventure = "4.24.0"
+objenesis = "3.4"
+semver = "2.1.0"
+bStats = "3.1.0"
+
+worldguardV6 = "6.2"
+worldguardV7 = "7.0.0"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadowJar = { id = "com.gradleup.shadow", version.ref = "shadowJar" }
+hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+
+[libraries]
+bukkit = { module = "org.bukkit:bukkit", version.ref = "bukkit" }
+netty = { module = "io.netty:netty-transport", version.ref = "netty" }
+papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
+adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventureSerializer = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+objenesis = { module = "org.objenesis:objenesis", version.ref = "objenesis" }
+semver = { module = "net.swiftzer.semver:semver", version.ref = "semver" }
+bStatsBukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
+worldguardV6 = { module = "com.sk89q.worldguard:worldguard-legacy", version.ref = "worldguardV6" }
+worldguardV7 = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = "worldguardV7" }

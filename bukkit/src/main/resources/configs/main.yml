@@ -1,0 +1,48 @@
+## Main Config (https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration)
+# This is where you can customize some plugin settings and the default world scoreboards.
+
+# (Do not change) Indicates the configuration file format.
+version: 4
+
+# Choose the language for plugin messages (supported: en/English, pt/Portuguese).
+# To use custom messages, refer to the plugin documentation.
+language: en
+
+# Enables automatic checks for plugin updates on startup.
+checkForUpdates: true
+
+## Worlds Configuration (Optional)
+# Defines the default scoreboards displayed in each world.
+# The plugin uses regular expressions to match world names.
+# Need to test your regex? Try https://regex101.com
+#
+# The order is important: the first pattern that matches a world name will be used.
+# It is recommended to put more specific patterns at the top.
+#
+# When multiple scoreboards are listed for a single world, the plugin will display
+# the first one in the list for which the player meets all of its conditions.
+worlds:
+  # For the worlds 'pvp_arena_1' and 'pvp_arena_2', set the 'pvp' scoreboard.
+  '^(pvp_arena_1|pvp_arena_2)$': [ 'pvp' ]
+
+  # For any world starting with 'survival_', the plugin will first try to show the
+  # 'survival' scoreboard. If the player doesn't meet its conditions, it will then
+  # check and display the 'economy' scoreboard if its conditions are met.
+  '^survival_\w+$': [ 'survival', 'economy' ]
+
+  # Sets the 'worldTheEnd' scoreboard specifically for the default End world.
+  '^world_the_end$': [ 'worldTheEnd' ]
+
+  # The default configuration for all other worlds that don't match the above patterns.
+  # This acts as a fallback to ensure all worlds have the default scoreboard.
+  '[\w\s\-]*': [ 'default' ]
+
+## Advanced Settings
+# Do not modify unless you know the implications.
+# Changes require a server restart.
+
+# Controls the frequency of the update task in ticks (20 ticks = 1 second).
+taskUpdateTime: 1
+
+# Controls weather the main scoreboard update task runs asynchronously or not.
+scoreboardTaskAsync: true

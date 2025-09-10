@@ -1,0 +1,154 @@
+## Scoreboards (https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration)
+# This is where you create your scoreboards to be displayed.
+
+# Create a scoreboard by creating a section with the scoreboard name followed by the required Scoreboard attributes.
+#
+# Scoreboards
+#
+# Each scoreboard must have at least the "titles" and "scores" attributes, everything else is optional:
+#  - titles: a list of Scoreboard Lines (see worldTheEnd Scoreboard), or the following shorthands can be used:
+#    - A simple string is treated as a single StaticLine with text set as the specified value (see default Scoreboard).
+#    - A list of strings is treated as a single AnimatedLine with each list value as a frame, (see pvp Scoreboard).
+#  - scores: a map of Scoreboard Scores Values to a list of Scoreboard Lines (see default Scoreboard), or a list
+#   of Scoreboard Scores (see worldTheEnd Scoreboard).
+#  - conditions: defaults to [ ], a list of condition names the player needs to meet in order to see this scoreboard.
+#  - defaultHideNumber: defaults to false, the default value for the scoreboard scores hideNumber attribute.
+#  - defaultVisibleFor: defaults to 20 ticks, the default value for the scoreboard lines visibleFor attribute.
+#  - defaultRenderEvery: defaults to 10 ticks, the default value for the scoreboard lines renderEvery attribute.
+#
+# Scoreboard Scores
+#
+# Each scoreboard score must have at least the "score" and "lines" attributes, everything else is optional:
+#  - score: a string that can be parsed to a number (eg: %player_level%), or a number.
+#  - lines: a single Scoreboard Line or a list of Scoreboard Lines.
+#  - conditions: defaults to [ ], a list of condition names the player needs to meet in order to see this score.
+#  - hideNumber: defaults to defaultHideNumber, whether the right side number value is hidden or not.
+#
+# Scoreboard Lines
+#
+# There are 3 types of scoreboard lines, each one with their own attributes, they are as follows.
+#  - BlankLine (a blank line with no text displayed):
+#    - conditions: defaults to [ ], a list of condition names the player needs to meet in order to see this line.
+#  - StaticLine (a static line that will always display the same defined text):
+#    - text: a string with the text to be displayed when this line is visible.
+#    - renderEvery: defaults to defaultRenderEvery, how often, in ticks, this text is rendered (see Important Concepts).
+#    - conditions: defaults to [ ], a list of condition names the player needs to meet in order to see this line.
+#  - AnimatedLine (an animated line that will animate between the defined frames with the text to display):
+#    - frames: a string, list of strings, or a list of frame objects with the following attributes:
+#      - text: a string with the text to be displayed when this frame is visible.
+#      - visibleFor: defaults to defaultVisibleFor, how long this frame is visible for, in ticks.
+#      - renderEvery: defaults to defaultRenderEvery, how often, in ticks, this frame is rendered (see Important Concepts).
+#    - conditions: defaults to [ ], a list of condition names the player needs to meet in order to see this line.
+#
+# Important Concepts
+#
+# Minecraft Ticks: There are 20 ticks in 1 second. A value of 20 means "1 second".
+# Scoreboard Lines: The order you define lines matters! The FIRST line where the player meets all conditions is the one
+#  that will be shown.
+# Condition Names: can be prefixed with a "!" (exclamation mark) to negate the condition.
+# RenderEvery: indicates how often the plugin replaces placeholders for the selected line/frame, this means the lower
+#  renderEvery is the more impact on performance it will have.
+#
+# Check out the examples bellow for more information.
+
+# Example of a simple Scoreboard layout.
+default:
+  titles: '&#54DAF4&lʏ&#54CCED&lᴏ&#54BEE6&lᴜ&#54B1DF&lʀ&#54A3D8&lꜱ&#5495D2&lᴇ&#5487CB&lʀ&#547AC4&lᴠ&#546CBD&lᴇ&#545EB6&lʀ'
+  scores:
+    13: '&7&m●                                ●'
+    12: '   &9&lᴘʟᴀʏᴇʀ'
+    11: '     &7▪ &bɴᴀᴍᴇ &f%player_name%'
+    10: '     &7▪ &bʀᴀɴᴋ &fUnknown'
+    9:  ''
+    8:  '   &9&lꜱᴛᴀᴛꜱ'
+    7:  '     &7▪ &bʜᴇᴀʟᴛʜ &f%player_health%&7/&f%player_maxhealth%'
+    6:  '     &7▪ &bʟᴇᴠᴇʟ &f%player_level%'
+    5:  ''
+    4:  '   &9&lꜱᴇʀᴠᴇʀ'
+    3:  '     &7▪ &bᴡᴏʀʟᴅ &f%player_world%'
+    2:  '     &7▪ &bᴏɴʟɪɴᴇ &f%server_online%&7/&f%server_maxplayers%'
+    1:  '&7&m●                                ●'
+    0:  '        &7&oʀᴜɪᴘᴇʀᴇɪʀᴀ.ᴅᴇᴠ        '
+  # Hide scoreboard score numbers on supported versions.
+  defaultHideNumber: true
+  # Render each line every 20 ticks (1 second) (see Important Concepts).
+  defaultRenderEvery: 20
+  # No conditions needed in order to see this scoreboard.
+  conditions: [ ]
+
+# Example of a more complex Scoreboard layout.
+worldTheEnd:
+  titles:
+    # If player is not in creative mode and is low on health.
+    - conditions: [ '!inCreativeMode', 'isLowHealth' ]
+      text: '&c&l&oLow on Health'
+    # Otherwise show this AnimatedLine.
+    - frames:
+        - text: '&eVisible For 20 ticks/1 second'
+          visibleFor: 20
+        - text: '&aVisible For 60 ticks/3 seconds'
+          visibleFor: 60
+  scores:
+    # Blank line, with the right side score value/number hidden.
+    - score: 100
+      lines: ''
+      hideNumber: true
+    # Will only display if player is in creative mode.
+    - conditions: [ 'inCreativeMode' ]
+      score: 1
+      lines: '&7You are in Creative Mode'
+    # Will only display if player is not in creative mode.
+    - conditions: [ '!inCreativeMode' ]
+      score: '%player_health%'
+      lines:
+        # Flash red if player is low on health.
+        - conditions: [ 'isLowHealth' ]
+          frames:
+            - text: '&7You are not in Creative Mode'
+              visibleFor: 5
+            - text: '&cYou are not in Creative Mode'
+              visibleFor: 5
+        - '&7You are not in Creative Mode'
+    # Blank line, with the right side score value/number hidden.
+    - score: 0
+      lines: ''
+      hideNumber: true
+  # Don't hide scoreboard score numbers by default.
+  defaultHideNumber: false
+  # No conditions needed in order to see this scoreboard.
+  conditions: [ ]
+
+# Example of a Scoreboard that changes layout every 10 seconds.
+pvp:
+  titles:
+    - 'PvP Scoreboard'
+    - 'Leaderboard'
+  scores:
+    - score: 0
+      lines: ''
+    - score: 0
+      lines:
+        - 'Player Stats:'
+        - 'Top Player 1'
+    - score: 0
+      lines:
+        - '  Kills: xx'
+        - 'Top Player 2'
+    - score: 0
+      lines:
+        - '  Deaths: xx'
+        - 'Top Player 3'
+    - score: 0
+      lines:
+        - '  K/D: xx'
+        - 'Top Player 4'
+    - score: 0
+      lines: ''
+  # Hide scoreboard score numbers on supported versions.
+  defaultHideNumber: true
+  # Display each Animated Frame for 200 ticks (10 seconds).
+  defaultVisibleFor: 200
+  # Render each line every 20 ticks (1 second) (see Important Concepts).
+  defaultRenderEvery: 20
+  # No conditions needed in order to see this scoreboard.
+  conditions: [ ]
