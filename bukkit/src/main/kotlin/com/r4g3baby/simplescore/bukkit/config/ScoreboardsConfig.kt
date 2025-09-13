@@ -77,7 +77,7 @@ class ScoreboardsConfig(
                     section.getKeys(false).forEach forEachScore@{ score ->
                         val scoreSec = section.getConfigurationSection(score) ?: run {
                             val lines = section.parseScoreboardLines(score, defaultVisibleFor, defaultRenderEvery)
-                            scores.add(ScoreboardScore(score, lines))
+                            scores.add(ScoreboardScore(score, lines, defaultHideNumber))
                             return@forEachScore
                         }
 
