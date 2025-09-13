@@ -25,7 +25,8 @@ Also comes with support for [PlaceholderAPI][PlaceholderAPI], allowing you to ho
 - Any message sent by the plugin can be modified either by the built-in translation system or by providing a custom messages file
 
 ## More Information
-### [Installation](https://github.com/RuiPereiraDev/SimpleScore/wiki/Installation) - [Configuration](https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration) - [Commands](https://github.com/RuiPereiraDev/SimpleScore/wiki/Commands)
+### Documentation
+[Configuration](https://github.com/RuiPereiraDev/SimpleScore/wiki/Configuration) - [Placeholders](https://github.com/RuiPereiraDev/SimpleScore/wiki/Placeholders) - [WorldGuard](https://github.com/RuiPereiraDev/SimpleScore/wiki/WorldGuard) - [Developer API](https://github.com/RuiPereiraDev/SimpleScore/wiki/Developer-API)
 
 ### Download Links
 [GitHub](https://github.com/RuiPereiraDev/SimpleScore/releases/latest) - [Modrinth][Modrinth] - [SpigotMC][SpigotMC] - [PaperMC][PaperMC]
