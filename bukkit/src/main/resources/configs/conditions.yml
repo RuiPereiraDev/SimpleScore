@@ -19,6 +19,8 @@
 #    to replace placeholders in the input and value attributes accordingly.
 #   - You can set ignoreCase (false by default), to make the operation case-insensitive.
 #
+# Placeholders: https://github.com/RuiPereiraDev/SimpleScore/wiki/Placeholders
+#
 # Check out the examples bellow for more information.
 
 # Checks if a player has the specified permission.

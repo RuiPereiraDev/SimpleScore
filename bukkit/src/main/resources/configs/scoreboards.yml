@@ -48,6 +48,7 @@
 # Condition Names: can be prefixed with a "!" (exclamation mark) to negate the condition.
 # RenderEvery: indicates how often the plugin replaces placeholders for the selected line/frame, this means the lower
 #  renderEvery is the more impact on performance it will have.
+# Placeholders: https://github.com/RuiPereiraDev/SimpleScore/wiki/Placeholders
 #
 # Check out the examples bellow for more information.
 
