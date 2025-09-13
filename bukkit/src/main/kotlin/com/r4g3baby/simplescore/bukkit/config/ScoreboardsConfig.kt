@@ -37,6 +37,7 @@ class ScoreboardsConfig(
             val defaultHideNumber = section.getBoolean("defaultHideNumber", false)
             val defaultVisibleFor = section.getInt("defaultVisibleFor", DEFAULT_VISIBLE_TICKS)
             val defaultRenderEvery = section.getInt("defaultRenderEvery", DEFAULT_RENDER_TICKS)
+            println("$name: $defaultHideNumber")
 
             val titles = section.parseScoreboardLines("titles", defaultVisibleFor, defaultRenderEvery)
             val scores = section.parseScoreboardScores(defaultHideNumber, defaultVisibleFor, defaultRenderEvery)
@@ -77,7 +78,7 @@ class ScoreboardsConfig(
                     section.getKeys(false).forEach forEachScore@{ score ->
                         val scoreSec = section.getConfigurationSection(score) ?: run {
                             val lines = section.parseScoreboardLines(score, defaultVisibleFor, defaultRenderEvery)
-                            scores.add(ScoreboardScore(score, lines))
+                            scores.add(ScoreboardScore(score, lines, defaultHideNumber))
                             return@forEachScore
                         }
 
