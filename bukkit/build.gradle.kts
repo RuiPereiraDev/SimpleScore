@@ -10,3 +10,11 @@ dependencies {
 
     implementation(libs.bStatsBukkit)
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+}

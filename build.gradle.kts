@@ -27,20 +27,6 @@ subprojects {
     java {
         withSourcesJar()
     }
-
-    afterEvaluate {
-        publishing {
-            publications {
-                create<MavenPublication>("maven") {
-                    groupId = project.group.toString()
-                    artifactId = project.name
-                    version = project.version.toString()
-
-                    from(components["java"])
-                }
-            }
-        }
-    }
 }
 
 allprojects {
@@ -76,8 +62,8 @@ tasks {
         relocate("org.objenesis", "$libs.objenesis")
         relocate("net.swiftzer.semver", "$libs.semver")
         relocate("org.bstats", "$libs.bstats")
-        //relocate("com.zaxxer.hikari", "$libs.hikari")
-        //relocate("org.slf4j", "$libs.slf4j")
+        // relocate("com.zaxxer.hikari", "$libs.hikari")
+        // relocate("org.slf4j", "$libs.slf4j")
 
         relocate("org.jetbrains", "$libs.jetbrains")
         relocate("kotlin", "$libs.kotlin")

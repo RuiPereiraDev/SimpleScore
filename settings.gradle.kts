@@ -11,7 +11,7 @@ dependencyResolutionManagement {
         mavenCentral()
 
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+        maven("https://repo.helpch.at/releases")
         maven("https://maven.enginehub.org/repo/")
     }
 }
