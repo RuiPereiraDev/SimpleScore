@@ -26,22 +26,23 @@ import java.util.concurrent.ConcurrentHashMap
 class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, YamlConfiguration>(plugin) {
     override val varReplacer = VarReplacer(plugin)
 
-    private val trailsAndTailsUpdate3 = ServerVersion.trailsAndTailsUpdate.copy(build = 3)
-    private val protocolHandler = if (ServerVersion.isBellow(trailsAndTailsUpdate3)) {
-        if (ServerVersion.isBellow(ServerVersion.aquaticUpdate)) {
-            LegacyProtocolHandler()
-        } else TeamsProtocolHandler()
-    } else ModernProtocolHandler()
+    private val protocolHandler = when {
+        ServerVersion.isBellow(ServerVersion.aquaticUpdate) -> LegacyProtocolHandler()
+        ServerVersion.isBellow(ServerVersion.trailsAndTailsUpdate.copy(build = 3)) -> TeamsProtocolHandler()
+        else -> ModernProtocolHandler()
+    }
 
     override fun onEnable() {
         super.onEnable()
 
-        plugin.getCommand(plugin.name).executor = MainCmd(plugin)
+        plugin.getCommand(plugin.name)?.executor = MainCmd(plugin)
         plugin.server.pluginManager.registerEvents(PlayerListener(this), plugin)
 
-        if (config.scoreboardTaskAsync) {
-            plugin.scheduler.runTaskTimerAsync(20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler))
-        } else plugin.scheduler.runTaskTimer(20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler))
+        if (config.scoreboardTaskAsync) plugin.scheduler.runTaskTimerAsync(
+            20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler)
+        ) else plugin.scheduler.runTaskTimer(
+            20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler)
+        )
     }
 
     override fun onDisable() {
@@ -65,16 +66,14 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
         worldScoreboardsCache.clear()
 
         // Make sure there are no conflicting scoreboards
-        config.scoreboards.forEach { (name, _) ->
-            scoreboardsMap.remove(name)
-        }
+        config.scoreboards.keys.forEach(scoreboardsMap::remove)
 
         // Refresh player scoreboards
         plugin.server.onlinePlayers.forEach { player ->
             val viewer = getOrCreateViewer(player)
 
             viewer.getScoreboard(plugin.provider)?.let { forcedScoreboard ->
-                val scoreboard = plugin.manager.getScoreboard(forcedScoreboard.name)
+                val scoreboard = getScoreboard(forcedScoreboard.name)
                 viewer.setScoreboard(scoreboard, plugin.provider, Priority.Highest)
             }
 
@@ -87,10 +86,7 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
     private val viewersMap: MutableMap<UUID, Viewer> = ConcurrentHashMap()
 
     override val scoreboards: List<Scoreboard<Player>>
-        get() = mutableListOf<Scoreboard<Player>>().apply {
-            this.addAll(config.scoreboards.values)
-            this.addAll(scoreboardsMap.values)
-        }
+        get() = config.scoreboards.values + scoreboardsMap.values
 
     override fun getScoreboard(name: String): Scoreboard<Player>? {
         return config.scoreboards[name] ?: scoreboardsMap[name]
@@ -112,25 +108,18 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
     }
 
     internal fun getOrCreateViewer(player: Player): Viewer {
-        return getViewer(player.uniqueId) ?: createViewer(player)
-    }
-
-    internal fun createViewer(player: Player): Viewer {
-        return Viewer(player).also { viewer ->
-            viewersMap[player.uniqueId] = viewer
-
-            plugin.scheduler.runTaskAsync {
-                // todo: fetch viewer information from storage
+        return viewersMap.computeIfAbsent(player.uniqueId) {
+            Viewer(player).also { _ ->
+                /* todo: fetch viewer information from storage
+                plugin.scheduler.runTaskAsync {}
+                */
             }
         }
     }
 
     internal fun removeViewer(uniqueID: UUID): Viewer? {
-        return viewersMap.remove(uniqueID).also { viewer ->
-            val player = viewer?.reference?.get()
-            if (player != null && player.isOnline) {
-                protocolHandler.removeObjective(player)
-            }
+        return viewersMap.remove(uniqueID)?.also { viewer ->
+            viewer.reference.get()?.takeIf { it.isOnline }?.let(protocolHandler::removeObjective)
         }
     }
 
@@ -157,16 +146,12 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
     private val worldScoreboardsCache = mutableMapOf<String, List<Scoreboard<Player>>>()
     private fun getForWorld(world: World): List<Scoreboard<Player>> {
         return worldScoreboardsCache.computeIfAbsent(world.name) {
-            mutableListOf<Scoreboard<Player>>().also { list ->
-                config.worlds.forEach { (predicate, scoreboards) ->
-                    if (predicate.test(world.name)) {
-                        scoreboards.mapNotNull { getScoreboard(it) }.forEach { scoreboard ->
-                            list.add(scoreboard)
-                        }
-                        return@forEach
-                    }
+            for ((predicate, scoreboards) in config.worlds) {
+                if (predicate.test(world.name)) {
+                    return@computeIfAbsent scoreboards.mapNotNull(::getScoreboard)
                 }
             }
+            emptyList()
         }
     }
 }
