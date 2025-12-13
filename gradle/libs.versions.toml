@@ -1,15 +1,15 @@
 [versions]
 # plugins
-kotlin = "2.2.10"
-shadowJar = "9.1.0"
-hangar = "0.1.3"
-minotaur = "2.8.8"
+kotlin = "2.2.21"
+shadowJar = "9.3.0"
+hangar = "0.1.4"
+minotaur = "2.8.10"
 
 # libraries
 bukkit = "1.8.8-R0.1-SNAPSHOT"
 netty = "4.1.97.Final"
 papi = "2.11.6"
-adventure = "4.24.0"
+adventure = "4.25.0"
 objenesis = "3.4"
 semver = "2.1.0"
 bStats = "3.1.0"
