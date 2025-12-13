@@ -23,7 +23,7 @@ fun checkForUpdates(onNewVersion: (SemVer) -> Unit, onNoVersion: (Exception?) ->
 
     try {
         BufferedReader(InputStreamReader(connection.inputStream)).use { inputStream ->
-            val response = BufferedReader(InputStreamReader(connection.inputStream)).use { it.readText() }
+            val response = inputStream.readText()
             val tagNameStartIndex = response.indexOf("\"tag_name\":\"v") + "\"tag_name\":\"v".length
             val tagNameEndIndex = response.indexOf("\"", tagNameStartIndex)
 

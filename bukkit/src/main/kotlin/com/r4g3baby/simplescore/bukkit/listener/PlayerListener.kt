@@ -9,10 +9,9 @@ import org.bukkit.event.player.*
 class PlayerListener(private val manager: BukkitManager) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        manager.createViewer(e.player).let { viewer ->
-            manager.onViewerChangeWorld(viewer, e.player.world)
-            manager.onViewerChangeLocation(viewer, e.player.location)
-        }
+        val viewer = manager.getOrCreateViewer(e.player)
+        manager.onViewerChangeWorld(viewer, e.player.world)
+        manager.onViewerChangeLocation(viewer, e.player.location)
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -23,6 +23,6 @@ public interface Conditional<V : Any> {
      * @return Returns true if all conditions are satisfied (the object is visible to the viewer), false otherwise.
      */
     public fun canSee(viewer: V, varReplacer: VarReplacer<V>): Boolean {
-        return !conditions.any { !it.check(viewer, varReplacer) }
+        return conditions.all { it.check(viewer, varReplacer) }
     }
 }

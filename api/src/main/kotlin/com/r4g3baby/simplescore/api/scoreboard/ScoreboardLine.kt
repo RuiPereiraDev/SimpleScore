@@ -50,11 +50,7 @@ public interface ScoreboardLine<V : Any> : Conditional<V> {
      * @param text The original text to apply effects to.
      * @return The text with all effects applied.
      */
-    public fun ScoreboardLine<V>.applyEffects(text: String): String {
-        var finalText = text
-        textEffects.forEach { textEffect ->
-            finalText = textEffect.apply(finalText)
-        }
-        return finalText
+    public fun applyEffects(text: String): String {
+        return textEffects.fold(text) { acc, textEffect -> textEffect.apply(acc) }
     }
 }
