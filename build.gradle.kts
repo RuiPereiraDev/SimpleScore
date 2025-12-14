@@ -58,6 +58,10 @@ tasks {
     shadowJar {
         archiveFileName.set("${project.name}-${project.version}.jar")
 
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang"
+        }
+
         val libs = "${project.group}.${project.name.lowercase()}.lib"
         relocate("org.objenesis", "$libs.objenesis")
         relocate("net.swiftzer.semver", "$libs.semver")
@@ -99,7 +103,7 @@ tasks {
         projectId = property("modrinth.project") as String?
         uploadFile = shadowJar.get()
         gameVersions = mapVersions("modrinth.versions")
-        loaders = arrayListOf("bukkit", "spigot", "paper", "folia")
+        loaders = arrayListOf("bukkit", "spigot", "paper", "folia", "purpur")
         changelog = generateChangelog()
 
         syncBodyFrom = file("README.md").readText()

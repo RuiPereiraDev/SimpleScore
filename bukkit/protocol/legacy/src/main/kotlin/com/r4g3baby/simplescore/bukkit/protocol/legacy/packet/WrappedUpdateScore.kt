@@ -26,7 +26,7 @@ data class WrappedUpdateScore(
                 )
 
                 val enumScoreboardAction = Reflection.getClass(
-                    "${Utils.NMS}.PacketPlayOutScoreboardScore\$EnumScoreboardAction"
+                    $$"$${Utils.NMS}.PacketPlayOutScoreboardScore$EnumScoreboardAction"
                 )
 
                 objectiveNameField = Reflection.getField(packetPlayOutScoreboardScore, String::class.java, 1)

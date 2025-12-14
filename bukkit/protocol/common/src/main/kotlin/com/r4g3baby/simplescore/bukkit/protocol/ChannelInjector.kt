@@ -20,12 +20,15 @@ class ChannelInjector {
             try {
                 val craftPlayer = Reflection.getClass("${Utils.OBC}.entity.CraftPlayer")
                 val entityPlayer = Reflection.findClass(
+                    "net.minecraft.server.level.ServerPlayer",
                     "net.minecraft.server.level.EntityPlayer", "${Utils.NMS}.EntityPlayer"
                 )
                 val playerConnection = Reflection.findClass(
+                    "net.minecraft.server.network.ServerGamePacketListenerImpl",
                     "net.minecraft.server.network.PlayerConnection", "${Utils.NMS}.PlayerConnection"
                 )
                 val networkManager = Reflection.findClass(
+                    "net.minecraft.network.Connection",
                     "net.minecraft.network.NetworkManager", "${Utils.NMS}.NetworkManager"
                 )
 
