@@ -40,8 +40,9 @@ data class WrappedUpdateObjective(
                 packetInstantiator = Utils.getInstantiatorOf(packetPlayOutScoreboardObjective)
 
                 val enumScoreboardHealthDisplay = Reflection.findClass(
-                    "net.minecraft.world.scores.criteria.IScoreboardCriteria\$EnumScoreboardHealthDisplay",
-                    "${Utils.NMS}.IScoreboardCriteria\$EnumScoreboardHealthDisplay"
+                    $$"net.minecraft.world.scores.criteria.ObjectiveCriteria$RenderType",
+                    $$"net.minecraft.world.scores.criteria.IScoreboardCriteria$EnumScoreboardHealthDisplay",
+                    $$"$${Utils.NMS}.IScoreboardCriteria$EnumScoreboardHealthDisplay"
                 )
 
                 nameField = Reflection.getField(packetPlayOutScoreboardObjective, String::class.java)

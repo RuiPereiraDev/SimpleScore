@@ -56,7 +56,8 @@ data class WrappedUpdateScore(
                     }
                 } else {
                     val enumAction = Reflection.findClass(
-                        "net.minecraft.server.ScoreboardServer\$Action", "${Utils.NMS}.ScoreboardServer\$Action"
+                        $$"net.minecraft.server.ServerScoreboard$Method",
+                        $$"net.minecraft.server.ScoreboardServer$Action", $$"$${Utils.NMS}.ScoreboardServer$Action"
                     )
 
                     actionField = Reflection.getField(packetPlayOutScoreboardScore, enumAction)

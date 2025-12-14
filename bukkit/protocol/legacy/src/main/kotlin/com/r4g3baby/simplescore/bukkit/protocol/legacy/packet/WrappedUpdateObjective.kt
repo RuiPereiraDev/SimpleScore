@@ -26,7 +26,7 @@ data class WrappedUpdateObjective(
                 )
 
                 val enumScoreboardHealthDisplay = Reflection.getClass(
-                    "${Utils.NMS}.IScoreboardCriteria\$EnumScoreboardHealthDisplay"
+                    $$"$${Utils.NMS}.IScoreboardCriteria$EnumScoreboardHealthDisplay"
                 )
 
                 nameField = Reflection.getField(packetPlayOutScoreboardObjective, String::class.java, 0)
