@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.r4g3baby"
-version = "4.1.0"
+version = "4.1.1-dev"
 
 dependencies {
     api(project("bukkit"))
