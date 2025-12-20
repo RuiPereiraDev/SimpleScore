@@ -1,6 +1,6 @@
 [versions]
 # plugins
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 shadowJar = "9.3.0"
 hangar = "0.1.4"
 minotaur = "2.8.10"
