@@ -34,6 +34,17 @@ jobs:
           files: build/libs/*.jar
         continue-on-error: false
 
+      - name: Get GitHub Changelog
+        run: |
+          changelog=$(gh api repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq '.body')
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "GITHUB_CHANGELOG<<$EOF" >> "$GITHUB_ENV"
+          echo "$changelog" >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
       - name: Publish Hangar Release
         run: ./gradlew publishPluginPublicationToHangar
         env:

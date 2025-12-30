@@ -1,6 +1,5 @@
 import io.papermc.hangarpublishplugin.model.Platforms
 import org.apache.tools.ant.filters.ReplaceTokens
-import java.io.ByteArrayOutputStream
 
 plugins {
     id("maven-publish")
@@ -87,7 +86,7 @@ tasks {
             id = property("hangar.project") as String?
             version = project.version as String
             channel = "Release"
-            changelog = generateChangelog()
+            changelog = parseGitHubChangelog()
 
             platforms {
                 register(Platforms.PAPER) {
@@ -104,7 +103,7 @@ tasks {
         uploadFile = shadowJar.get()
         gameVersions = mapVersions("modrinth.versions")
         loaders = arrayListOf("bukkit", "spigot", "paper", "folia", "purpur")
-        changelog = generateChangelog()
+        changelog = parseGitHubChangelog()
 
         syncBodyFrom = file("README.md").readText()
         modrinth.get().dependsOn(modrinthSyncBody)
@@ -115,25 +114,22 @@ fun mapVersions(propertyName: String): Provider<List<String>> = provider {
     return@provider (property(propertyName) as String).split(",").map { it.trim() }
 }
 
-fun generateChangelog(): Provider<String> = provider {
-    val tags = providers.exec {
-        commandLine("git", "tag", "--sort", "version:refname")
-    }.standardOutput.asText.get().trim().split("\n")
+fun parseGitHubChangelog(): Provider<String> = provider {
+    val changelog = System.getenv("GITHUB_CHANGELOG")
+        ?: return@provider "(No changelog provided)"
 
-    val tagsRange = if (tags.size > 1) {
-        "${tags[tags.size - 2]}...${tags[tags.size - 1]}"
-    } else if (tags.isNotEmpty()) tags[0] else "HEAD~1...HEAD"
+    val userRegex = Regex("(?<!\\w)@([A-Za-z0-9-]+)")
+    val pullRegex = Regex("https://github\\.com/[\\w-]+/[\\w-]+/pull/(\\d+)")
+    val compareRegex = Regex("https://github\\.com/[\\w-]+/[\\w-]+/compare/([\\w\\.]+)")
 
-    val repoUrl = property("github.url") as String?
-    val changelog = ByteArrayOutputStream().apply {
-        write("### Commits:\n".toByteArray())
-
-        write(providers.exec {
-            commandLine("git", "log", tagsRange, "--pretty=format:- [%h]($repoUrl/commit/%H) %s", "--reverse")
-        }.standardOutput.asBytes.get())
-
-        write("\n\nCompare Changes: [$tagsRange]($repoUrl/compare/$tagsRange)".toByteArray())
-    }.toString(Charsets.UTF_8.name())
-
-    return@provider changelog
+    changelog.replace(userRegex) {
+        val user = it.groupValues[1]
+        "[@$user](https://github.com/$user)"
+    }.replace(pullRegex) {
+        val pr = it.groupValues[1]
+        "[#$pr](${it.value})"
+    }.replace(compareRegex) {
+        val range = it.groupValues[1]
+        "[$range](${it.value})"
+    }
 }
