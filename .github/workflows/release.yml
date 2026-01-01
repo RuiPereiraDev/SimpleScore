@@ -46,7 +46,7 @@ jobs:
         continue-on-error: true
 
       - name: Publish Hangar Release
-        run: ./gradlew publishPluginPublicationToHangar
+        run: ./gradlew publishAllPublicationsToHangar
         env:
           HANGAR_TOKEN: ${{ secrets.HANGAR_TOKEN }}
         continue-on-error: true

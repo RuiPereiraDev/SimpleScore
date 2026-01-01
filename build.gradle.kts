@@ -94,8 +94,14 @@ tasks {
                     platformVersions = mapVersions("hangar.versions")
                 }
             }
+
+            pages {
+                resourcePage(readme())
+            }
         }
     }
+
+    publishAllPublicationsToHangar.get().dependsOn(syncAllPagesToHangar)
 
     modrinth {
         token = findProperty("modrinth.token") as String? ?: System.getenv("MODRINTH_TOKEN")
@@ -105,9 +111,14 @@ tasks {
         loaders = arrayListOf("bukkit", "spigot", "paper", "folia", "purpur")
         changelog = parseGitHubChangelog()
 
-        syncBodyFrom = file("README.md").readText()
-        modrinth.get().dependsOn(modrinthSyncBody)
+        syncBodyFrom = readme()
     }
+
+    modrinth.get().dependsOn(modrinthSyncBody)
+}
+
+fun readme(): Provider<String> = provider {
+    return@provider file("README.md").readText()
 }
 
 fun mapVersions(propertyName: String): Provider<List<String>> = provider {
