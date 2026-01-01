@@ -7,7 +7,7 @@
 [![Players](https://ruipereira.dev/api/badge/players/SimpleScore)][bStats]
 [![License](https://img.shields.io/github/license/RuiPereiraDev/SimpleScore)](https://github.com/RuiPereiraDev/SimpleScore/blob/main/LICENSE)
 
-# Information
+# Overview
 [SimpleScore][GitHub] is a powerful yet easy-to-use plugin that lets you bring your Minecraft server to life with fully customized scoreboards. Display key information, announcements, player stats and much more in real-time!
 
 Supports selecting and showing specific scoreboards to players based on their permissions, certain conditions, the current world, or even the [WorldGuard][WorldGuard] region they are inside with a very simple and intuitive configuration system.
@@ -15,14 +15,18 @@ Supports selecting and showing specific scoreboards to players based on their pe
 Also comes with support for [PlaceholderAPI][PlaceholderAPI], allowing you to hook into thousands of other plugins to retrieve and display their information in real time, or create a set of conditions that the player must meet to be able to see a particular scoreboard.
 
 ## Main Features
-- A lag-free, fully animated scoreboard with no flickering
-- Support for newer features such as hiding score numbers
-- Full RGB colour support on 1.16 servers or newer
-- Supports all major Minecraft versions from 1.8.x to 1.21.x
-- Can display scoreboards based on permissions, conditions, worlds and regions
-- No character limit on 1.13 servers or newer (limited to 32 characters on older versions)
-- Should be compatible with any other plugins that temporarily change the scoreboard
-- Any message sent by the plugin can be modified either by the built-in translation system or by providing a custom messages file
+- A lag-free, fully animated scoreboard with no flickering.
+- Support for newer features such as hiding score numbers.
+- Full RGB color support on 1.16 servers or newer.
+- Supports all major Minecraft versions from 1.8.x to 1.21.x.
+- Can display scoreboards based on permissions, conditions, worlds and regions.
+- No character limit on 1.13 servers or newer (limited to 32 characters on older versions).
+- Designed to be compatible with any other plugins that temporarily modify the scoreboard.
+- Any message sent by the plugin can be modified either by the built-in translation system or by providing a custom messages file.
+
+## Requirements
+- **Java:** Java 8 or above.
+- **Server:** Spigot, Paper, or forks (MC 1.8.x - 1.21.x).
 
 ## More Information
 ### Documentation
