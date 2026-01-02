@@ -26,4 +26,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Test with Gradle Wrapper
-        run: ./gradlew test --build-cache
+        run: ./gradlew test
