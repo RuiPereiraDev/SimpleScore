@@ -3,7 +3,6 @@ package com.r4g3baby.simplescore.bukkit.protocol
 import com.r4g3baby.simplescore.bukkit.util.NMS
 import com.r4g3baby.simplescore.bukkit.util.OBC
 import com.r4g3baby.simplescore.core.util.Reflection
-import com.r4g3baby.simplescore.core.util.Reflection.findClass
 import io.netty.channel.Channel
 import org.bukkit.entity.Player
 import java.util.*
@@ -21,15 +20,15 @@ class ChannelInjector {
         init {
             try {
                 val craftPlayer = Reflection.getClass("${OBC}.entity.CraftPlayer")
-                val entityPlayer = findClass(
+                val entityPlayer = Reflection.findClass(
                     "net.minecraft.server.level.ServerPlayer",
                     "net.minecraft.server.level.EntityPlayer", "${NMS}.EntityPlayer"
                 )
-                val playerConnection = findClass(
+                val playerConnection = Reflection.findClass(
                     "net.minecraft.server.network.ServerGamePacketListenerImpl",
                     "net.minecraft.server.network.PlayerConnection", "${NMS}.PlayerConnection"
                 )
-                val networkManager = findClass(
+                val networkManager = Reflection.findClass(
                     "net.minecraft.network.Connection",
                     "net.minecraft.network.NetworkManager", "${NMS}.NetworkManager"
                 )

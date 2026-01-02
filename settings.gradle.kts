@@ -10,14 +10,20 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
 
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("https://repo.helpch.at/releases")
-        maven("https://maven.enginehub.org/repo/")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
+            name = "spigotmc-repo"
+        }
+        maven("https://repo.helpch.at/releases") {
+            name = "helpchat-repo"
+        }
+        maven("https://maven.enginehub.org/repo/") {
+            name = "enginehub-repo"
+        }
     }
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("1.0.0")
 }
 
 rootProject.name = "SimpleScore"
