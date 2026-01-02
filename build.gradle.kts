@@ -3,7 +3,7 @@ import io.papermc.hangarpublishplugin.model.Platforms
 plugins {
     id("maven-publish")
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.shadowJar)
+    alias(libs.plugins.shadow)
     alias(libs.plugins.hangar)
     alias(libs.plugins.minotaur)
 }
