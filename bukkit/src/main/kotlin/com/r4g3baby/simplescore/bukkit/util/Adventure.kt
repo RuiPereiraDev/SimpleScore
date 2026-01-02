@@ -1,6 +1,5 @@
 package com.r4g3baby.simplescore.bukkit.util
 
-import com.r4g3baby.simplescore.bukkit.protocol.util.ServerVersion
 import com.r4g3baby.simplescore.core.util.Reflection.classExists
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer

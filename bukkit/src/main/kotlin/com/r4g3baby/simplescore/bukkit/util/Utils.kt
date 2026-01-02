@@ -1,13 +1,24 @@
 package com.r4g3baby.simplescore.bukkit.util
 
 import com.r4g3baby.simplescore.api.scoreboard.data.Provider
-import com.r4g3baby.simplescore.bukkit.protocol.util.Utils
 import com.r4g3baby.simplescore.core.util.Reflection
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
+import org.objenesis.ObjenesisStd
+import org.objenesis.instantiator.ObjectInstantiator
 import java.util.function.Function
 
+val OBC: String = Bukkit.getServer().javaClass.getPackage().name
+val NMS: String = OBC.replace("org.bukkit.craftbukkit", "net.minecraft.server")
+
+private val objenesis = ObjenesisStd(true)
+fun <T> getInstantiatorOf(clazz: Class<T>): ObjectInstantiator<T> {
+    return objenesis.getInstantiatorOf<T>(clazz)
+}
+
 fun String.lazyReplace(oldValue: String, newValueFunc: () -> String): String {
+    if (oldValue.isEmpty()) return this
     var occurrenceIndex = this.indexOf(oldValue, ignoreCase = true)
     if (occurrenceIndex < 0) return this
 
@@ -49,14 +60,14 @@ val getPlayerPing = object : Function<Player, Int> {
     init {
         if (getPingMethod == null) {
             getPlayerHandle = try {
-                val craftPlayer = Reflection.getClass("${Utils.OBC}.entity.CraftPlayer")
+                val craftPlayer = Reflection.getClass("${OBC}.entity.CraftPlayer")
                 Reflection.getMethodByName(craftPlayer, "getHandle")
             } catch (_: Exception) { null }
 
             pingField = try {
                 val entityPlayer = Reflection.findClass(
                     "net.minecraft.server.level.ServerPlayer",
-                    "net.minecraft.server.level.EntityPlayer", "${Utils.NMS}.EntityPlayer"
+                    "net.minecraft.server.level.EntityPlayer", "${NMS}.EntityPlayer"
                 )
                 Reflection.getField(entityPlayer, Int::class.java, filter = { field -> field.name == "ping" })
             } catch (_: Exception) { null }

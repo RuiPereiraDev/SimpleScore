@@ -2,14 +2,15 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 dependencies {
     api(project(":core"))
-    implementation(project(":bukkit:protocol"))
     implementation(project(":bukkit:worldguard"))
 
     compileOnly(libs.bukkit)
+    compileOnly(libs.netty)
     compileOnly(libs.papi)
     compileOnly(libs.adventureMiniMessage)
     compileOnly(libs.adventureSerializer)
 
+    implementation(libs.objenesis)
     implementation(libs.bStatsBukkit)
 }
 
