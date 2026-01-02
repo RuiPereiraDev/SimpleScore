@@ -13,10 +13,6 @@ dependencies {
     implementation(libs.bStatsBukkit)
 }
 
-subprojects {
-    group = "${project.group}.bukkit"
-}
-
 tasks {
     processResources {
         filteringCharset = "UTF-8"
@@ -25,8 +21,8 @@ tasks {
                 "tokens" to mapOf(
                     "name" to rootProject.name,
                     "version" to rootProject.version,
+                    "package" to rootProject.group,
                     "description" to "A simple animated scoreboard plugin for your server.",
-                    "package" to "${rootProject.group}.${rootProject.name.lowercase()}",
                     "website" to "https://ruipereira.dev"
                 )
             )

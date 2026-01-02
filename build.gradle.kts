@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.minotaur)
 }
 
-group = "com.r4g3baby"
+group = "com.r4g3baby.simplescore"
 version = "4.1.1-dev"
 
 dependencies {
@@ -16,7 +16,7 @@ dependencies {
 }
 
 subprojects {
-    group = "${rootProject.group}.${rootProject.name.lowercase()}"
+    group = rootProject.group
     version = rootProject.version
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -25,6 +25,8 @@ subprojects {
     publishing {
         publications {
             create<MavenPublication>("maven") {
+                artifactId = "${rootProject.name}-${path.replace(":", "-").drop(1)}".lowercase()
+
                 from(components["java"])
             }
         }
@@ -44,6 +46,8 @@ allprojects {
 }
 
 tasks {
+    jar { enabled = false }
+
     shadowJar {
         archiveFileName.set("${project.name}-${project.version}.jar")
 
@@ -51,12 +55,10 @@ tasks {
             attributes["paperweight-mappings-namespace"] = "mojang"
         }
 
-        val libs = "${project.group}.${project.name.lowercase()}.lib"
+        val libs = "${project.group}.lib"
         relocate("org.objenesis", "$libs.objenesis")
         relocate("net.swiftzer.semver", "$libs.semver")
         relocate("org.bstats", "$libs.bstats")
-        // relocate("com.zaxxer.hikari", "$libs.hikari")
-        // relocate("org.slf4j", "$libs.slf4j")
 
         relocate("org.jetbrains", "$libs.jetbrains")
         relocate("kotlin", "$libs.kotlin")
@@ -116,14 +118,13 @@ fun mapVersions(propertyName: String): Provider<List<String>> = provider {
 }
 
 fun parseGitHubChangelog(): Provider<String> = provider {
-    val changelog = System.getenv("GITHUB_CHANGELOG")
-        ?: return@provider "(No changelog provided)"
+    val changelog = System.getenv("GITHUB_CHANGELOG") ?: return@provider "(No changelog provided)"
 
     val userRegex = Regex("(?<!\\w)@([A-Za-z0-9-]+)")
     val pullRegex = Regex("https://github\\.com/[\\w-]+/[\\w-]+/pull/(\\d+)")
     val compareRegex = Regex("https://github\\.com/[\\w-]+/[\\w-]+/compare/([\\w\\.]+)")
 
-    changelog.replace(userRegex) {
+    return@provider changelog.replace(userRegex) {
         val user = it.groupValues[1]
         "[@$user](https://github.com/$user)"
     }.replace(pullRegex) {

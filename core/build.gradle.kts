@@ -4,9 +4,8 @@ dependencies {
     api(libs.semver)
 }
 
-val generateProjectInfo = tasks.register("generateProjectInfo") {
-    val path = "${rootProject.group}.${rootProject.name.lowercase()}"
-    val outputDir = layout.buildDirectory.dir("generated/source/projectInfo/$path")
+val generateProjectInfo: TaskProvider<Task> = tasks.register("generateProjectInfo") {
+    val outputDir = layout.buildDirectory.dir("generated/source/projectInfo/${rootProject.group}")
     outputs.dir(outputDir)
 
     val outputFile = outputDir.map { it.file("ProjectInfo.kt") }.get().asFile
@@ -14,7 +13,7 @@ val generateProjectInfo = tasks.register("generateProjectInfo") {
         outputFile.parentFile.mkdirs()
         outputFile.writeText(
             """
-                package $path
+                package ${rootProject.group}
 
                 import net.swiftzer.semver.SemVer
 
