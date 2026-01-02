@@ -1,5 +1,4 @@
 import io.papermc.hangarpublishplugin.model.Platforms
-import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("maven-publish")
@@ -40,23 +39,6 @@ allprojects {
     kotlin {
         jvmToolchain {
             languageVersion = JavaLanguageVersion.of(8)
-        }
-    }
-
-    tasks {
-        processResources {
-            filteringCharset = "UTF-8"
-            filesMatching(listOf("**plugin.yml")) {
-                filter<ReplaceTokens>(
-                    "tokens" to mapOf(
-                        "name" to rootProject.name,
-                        "version" to rootProject.version,
-                        "description" to "A simple animated scoreboard plugin for your server.",
-                        "package" to "${rootProject.group}.${rootProject.name.lowercase()}",
-                        "website" to "https://ruipereira.dev"
-                    )
-                )
-            }
         }
     }
 }
