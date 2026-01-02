@@ -23,12 +23,20 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "maven-publish")
 
-    java {
-        withSourcesJar()
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from(components["java"])
+            }
+        }
     }
 }
 
 allprojects {
+    java {
+        withSourcesJar()
+    }
+
     kotlin {
         jvmToolchain {
             languageVersion = JavaLanguageVersion.of(8)
