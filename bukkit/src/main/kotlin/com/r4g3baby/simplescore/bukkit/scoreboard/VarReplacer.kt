@@ -14,7 +14,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 class VarReplacer(plugin: BukkitPlugin) : VarReplacer<Player> {
-    private val usePlaceholderAPI = plugin.server.pluginManager.getPlugin("PlaceholderAPI") != null
+    private val usePlaceholderAPI = plugin.server.pluginManager.isPluginEnabled("PlaceholderAPI")
 
     override fun replace(text: String, viewer: Player): String {
         var result = if (usePlaceholderAPI) PlaceholderAPI.setPlaceholders(viewer, text) else text

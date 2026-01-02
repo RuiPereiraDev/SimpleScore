@@ -1,7 +1,3 @@
-subprojects {
-    group = "${project.group}.worldguard"
-}
-
 dependencies {
     api(project(":core"))
 

@@ -9,10 +9,10 @@ import com.r4g3baby.simplescore.bukkit.listener.PlayerListener
 import com.r4g3baby.simplescore.bukkit.protocol.legacy.LegacyProtocolHandler
 import com.r4g3baby.simplescore.bukkit.protocol.modern.ModernProtocolHandler
 import com.r4g3baby.simplescore.bukkit.protocol.modern.TeamsProtocolHandler
-import com.r4g3baby.simplescore.bukkit.protocol.util.ServerVersion
 import com.r4g3baby.simplescore.bukkit.scoreboard.ScoreboardTask
 import com.r4g3baby.simplescore.bukkit.scoreboard.VarReplacer
 import com.r4g3baby.simplescore.bukkit.scoreboard.data.Viewer
+import com.r4g3baby.simplescore.bukkit.util.ServerVersion
 import com.r4g3baby.simplescore.bukkit.worldguard.WorldGuardAPI
 import com.r4g3baby.simplescore.core.BaseManager
 import org.bukkit.Location

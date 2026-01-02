@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":bukkit:worldguard:api"))
+    api(project(":bukkit:worldguard:common"))
 
     compileOnly(libs.bukkit)
     compileOnly(libs.worldguardV7) {
