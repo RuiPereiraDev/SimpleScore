@@ -9,7 +9,7 @@ object WorldGuardAPI {
     private lateinit var worldguard: IWorldGuard
 
     fun initialize() {
-        if (!Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) return
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) return
 
         if (classExists("com.sk89q.worldguard.WorldGuard")) {
             worldguard = com.r4g3baby.simplescore.bukkit.worldguard.v7.WorldGuardImpl()
