@@ -18,7 +18,6 @@ fun <T> getInstantiatorOf(clazz: Class<T>): ObjectInstantiator<T> {
 }
 
 fun String.lazyReplace(oldValue: String, newValueFunc: () -> String): String {
-    if (oldValue.isEmpty()) return this
     var occurrenceIndex = this.indexOf(oldValue, ignoreCase = true)
     if (occurrenceIndex < 0) return this
 
