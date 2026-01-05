@@ -58,5 +58,5 @@ For those who want to show their appreciation with a financial contribution, you
 [Sponsors]: https://github.com/sponsors/RuiPereiraDev
 [PayPal]: https://paypal.me/RageBaby
 
-[WorldGuard]: https://dev.bukkit.org/projects/worldguard
-[PlaceholderAPI]: https://www.spigotmc.org/resources/6245/
+[WorldGuard]: https://modrinth.com/plugin/worldguard
+[PlaceholderAPI]: https://modrinth.com/plugin/placeholderapi
