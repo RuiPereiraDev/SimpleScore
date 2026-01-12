@@ -2,10 +2,8 @@ name: Test
 
 on:
   push:
-    branches:
-      - "main"
-    tags-ignore:
-      - "v*.*.*"
+    branches: [ "main" ]
+    tags-ignore: [ "v*.*.*" ]
   pull_request:
 
 jobs:
@@ -14,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Java 21
         uses: actions/setup-java@v5
