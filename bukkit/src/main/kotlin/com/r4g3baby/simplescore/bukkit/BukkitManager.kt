@@ -5,6 +5,7 @@ import com.r4g3baby.simplescore.api.scoreboard.Scoreboard
 import com.r4g3baby.simplescore.api.scoreboard.data.Priority
 import com.r4g3baby.simplescore.bukkit.command.MainCmd
 import com.r4g3baby.simplescore.bukkit.config.MainConfig
+import com.r4g3baby.simplescore.bukkit.hooks.PapiExpansion
 import com.r4g3baby.simplescore.bukkit.listener.PlayerListener
 import com.r4g3baby.simplescore.bukkit.protocol.legacy.LegacyProtocolHandler
 import com.r4g3baby.simplescore.bukkit.protocol.modern.ModernProtocolHandler
@@ -37,6 +38,10 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
 
         plugin.getCommand(plugin.name)?.executor = MainCmd(plugin)
         plugin.server.pluginManager.registerEvents(PlayerListener(this), plugin)
+
+        if (varReplacer.usePlaceholderAPI) {
+            PapiExpansion(plugin).register()
+        }
 
         if (config.scoreboardTaskAsync) plugin.scheduler.runTaskTimerAsync(
             20L, config.taskUpdateTime, ScoreboardTask(this, protocolHandler)
