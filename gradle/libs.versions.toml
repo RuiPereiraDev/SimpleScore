@@ -1,9 +1,9 @@
 [versions]
 # Plugins
-kotlin = "2.3.0"
-shadow = "9.3.0"
+kotlin = "2.3.20"
+shadow = "9.4.0"
 hangar = "0.1.4"
-minotaur = "2.8.10"
+minotaur = "2.9.0"
 
 # Libraries
 bukkit = "1.8.8-R0.1-SNAPSHOT"
