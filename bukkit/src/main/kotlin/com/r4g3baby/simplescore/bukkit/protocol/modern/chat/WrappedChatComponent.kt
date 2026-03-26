@@ -1,10 +1,11 @@
 package com.r4g3baby.simplescore.bukkit.protocol.modern.chat
 
+import com.r4g3baby.simplescore.bukkit.util.Adventure
 import com.r4g3baby.simplescore.bukkit.util.NMS
 import com.r4g3baby.simplescore.bukkit.util.OBC
 import com.r4g3baby.simplescore.core.util.Reflection
 
-class WrappedChatComponent(val handle: Any) {
+class WrappedChatComponent private constructor(val handle: Any) {
     companion object {
         val clazz: Class<*>
 
@@ -27,6 +28,10 @@ class WrappedChatComponent(val handle: Any) {
         }
 
         fun fromString(message: String): WrappedChatComponent {
+            val component = Adventure.parseToComponent(message)
+            if (component != null) return WrappedChatComponent(component)
+
+            val message = Adventure.parseToString(message) ?: message
             val components = fromString.invoke(null, message) as Array<*>
             return WrappedChatComponent(components[0]!!)
         }

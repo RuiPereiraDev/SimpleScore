@@ -2,7 +2,6 @@ package com.r4g3baby.simplescore.bukkit.scoreboard
 
 import com.r4g3baby.simplescore.BukkitPlugin
 import com.r4g3baby.simplescore.api.scoreboard.VarReplacer
-import com.r4g3baby.simplescore.bukkit.util.Adventure
 import com.r4g3baby.simplescore.bukkit.util.getPlayerPing
 import com.r4g3baby.simplescore.bukkit.util.lazyReplace
 import com.r4g3baby.simplescore.core.util.translateColorCodes
@@ -36,7 +35,6 @@ class VarReplacer(plugin: BukkitPlugin) : VarReplacer<Player> {
             .lazyReplace("%server_online%") { viewer.server.onlinePlayers.size.toString() }
             .lazyReplace("%server_maxplayers%") { viewer.server.maxPlayers.toString() }
 
-        result = Adventure.parseToString(result)
         return translateColorCodes(result)
     }
 
