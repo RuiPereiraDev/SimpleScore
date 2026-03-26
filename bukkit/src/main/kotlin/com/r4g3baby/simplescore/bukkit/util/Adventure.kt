@@ -1,5 +1,6 @@
 package com.r4g3baby.simplescore.bukkit.util
 
+import com.r4g3baby.simplescore.core.util.Reflection
 import com.r4g3baby.simplescore.core.util.Reflection.classExists
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
@@ -8,31 +9,43 @@ import org.bukkit.ChatColor.COLOR_CHAR
 object Adventure {
     private val miniMessage: MiniMessage?
     private val textSerializer: LegacyComponentSerializer?
+    private val componentConstructor: Reflection.ConstructorInvoker?
 
     init {
-        val isAdventureSupported = classExists("net.kyori.adventure.text.minimessage.MiniMessage")
-            && classExists("net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer")
+        val isMiniMessageSupported = classExists("net.kyori.adventure.text.minimessage.MiniMessage")
+        miniMessage = if (isMiniMessageSupported) MiniMessage.miniMessage() else null
 
-        if (isAdventureSupported) {
-            miniMessage = MiniMessage.builder().strict(false).build()
-
+        val isLegacyTextSupported = classExists("net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer")
+        textSerializer = if (isLegacyTextSupported) {
             val legacySerializerBuilder = LegacyComponentSerializer.builder().character(COLOR_CHAR)
             val hexColorsSupported = ServerVersion.atOrAbove(ServerVersion.netherUpdate)
-            textSerializer = if (hexColorsSupported) {
+
+            if (hexColorsSupported) {
                 legacySerializerBuilder.useUnusualXRepeatedCharacterHexFormat().hexColors().build()
             } else legacySerializerBuilder.build()
-        } else {
-            miniMessage = null
-            textSerializer = null
-        }
+        } else null
+
+        componentConstructor = try {
+            val component = Reflection.getClass("net.kyori.adventure.text.Component")
+            val adventureComponent = Reflection.getClass("io.papermc.paper.adventure.AdventureComponent")
+            Reflection.getConstructor(adventureComponent, component)
+        } catch (_: IllegalArgumentException) { null }
     }
 
-    fun parseToString(text: String): String {
+    fun parseToString(text: String): String? {
         return if (textSerializer != null && miniMessage != null) {
             textSerializer.serialize(
                 miniMessage.deserialize(vanillaToMini(text))
             )
-        } else text
+        } else null
+    }
+
+    fun parseToComponent(text: String): Any? {
+        return if (componentConstructor != null && miniMessage != null) {
+            componentConstructor.invoke(
+                miniMessage.deserialize(vanillaToMini(text))
+            )
+        } else null
     }
 
     private val namedToMiniTag = mapOf(
