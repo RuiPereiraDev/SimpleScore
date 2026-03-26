@@ -19,12 +19,12 @@ subprojects {
     group = rootProject.group
     version = rootProject.version
 
-    apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
 
     publishing {
         publications {
-            create<MavenPublication>("maven") {
+            create<MavenPublication>("mavenJava") {
                 artifactId = "${rootProject.name}-${path.replace(":", "-").drop(1)}".lowercase()
 
                 from(components["java"])
@@ -39,9 +39,7 @@ allprojects {
     }
 
     kotlin {
-        jvmToolchain {
-            languageVersion = JavaLanguageVersion.of(8)
-        }
+        jvmToolchain(8)
     }
 }
 

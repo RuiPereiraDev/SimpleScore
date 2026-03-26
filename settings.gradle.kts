@@ -11,13 +11,13 @@ dependencyResolutionManagement {
         mavenCentral()
 
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
-            name = "spigotmc-repo"
+            name = "spigotmc"
         }
-        maven("https://repo.helpch.at/releases") {
-            name = "helpchat-repo"
+        maven("https://repo.helpch.at/releases/") {
+            name = "helpchat"
         }
         maven("https://maven.enginehub.org/repo/") {
-            name = "enginehub-repo"
+            name = "enginehub"
         }
     }
 }
