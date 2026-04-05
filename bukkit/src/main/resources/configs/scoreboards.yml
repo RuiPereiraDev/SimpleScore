@@ -66,7 +66,7 @@ default:
     6:  '     &7▪ &bʟᴇᴠᴇʟ &f%player_level%'
     5:  ''
     4:  '   &9&lꜱᴇʀᴠᴇʀ'
-    3:  '     &7▪ &bʟᴀᴛᴇɴᴄʏ &f%player_ping%'
+    3:  '     &7▪ &bʟᴀᴛᴇɴᴄʏ &f%player_ping%ms'
     2:  '     &7▪ &bᴏɴʟɪɴᴇ &f%server_online%&7/&f%server_maxplayers%'
     1:  '&7&m●                                ●'
     0:  '        &7&oʀᴜɪᴘᴇʀᴇɪʀᴀ.ᴅᴇᴠ        '
