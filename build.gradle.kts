@@ -3,6 +3,7 @@ import io.papermc.hangarpublishplugin.model.Platforms
 plugins {
     id("maven-publish")
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.dokka)
     alias(libs.plugins.shadow)
     alias(libs.plugins.hangar)
     alias(libs.plugins.minotaur)
@@ -13,6 +14,10 @@ version = "4.1.1-dev"
 
 dependencies {
     api(project("bukkit"))
+
+    dokka(project(":api"))
+    dokka(project(":core"))
+    dokka(project(":bukkit"))
 }
 
 subprojects {

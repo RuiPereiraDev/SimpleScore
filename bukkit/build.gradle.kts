@@ -1,5 +1,9 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
+plugins {
+    alias(libs.plugins.dokka)
+}
+
 dependencies {
     api(project(":core"))
     implementation(project(":bukkit:worldguard"))

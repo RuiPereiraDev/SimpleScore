@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.dokka)
+}
+
 dependencies {
     api(project(":api"))
 
