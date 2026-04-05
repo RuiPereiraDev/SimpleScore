@@ -1,7 +1,7 @@
 [versions]
 # Plugins
 kotlin = "2.3.20"
-shadow = "9.4.0"
+shadow = "9.4.1"
 hangar = "0.1.4"
 minotaur = "2.9.0"
 
@@ -12,9 +12,9 @@ papi = "2.11.6"
 adventure = "4.25.0"
 worldguardV6 = "6.2"
 worldguardV7 = "7.0.0"
-bStats = "3.1.0"
+bStats = "3.2.1"
 semver = "2.1.0"
-objenesis = "3.4"
+objenesis = "3.5"
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
