@@ -11,8 +11,9 @@ class Info(private val plugin: BukkitPlugin) : SubCmd(plugin, "info") {
 
     override fun run(sender: CommandSender, args: Array<out String>) {
         if (sender is Player) {
-            if (args.isNotEmpty() && sender.hasPermission(otherPermission)) {
-                return targetOther(sender, args)
+            if (args.isNotEmpty()) {
+                if (sender.hasPermission(otherPermission)) return targetOther(sender, args)
+                return sender.sendMessage(plugin.i18n.t("cmd.noPermission"))
             }
 
             val viewer = plugin.manager.getOrCreateViewer(sender)

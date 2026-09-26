@@ -21,6 +21,12 @@ permissions:
       simplescore.cmd.*: true
   simplescore.cmd.*:
     description: Grants access to all SimpleScore commands
+    children:
+      simplescore.cmd.force: true
+      simplescore.cmd.info: true
+      simplescore.cmd.reload: true
+      simplescore.cmd.toggle: true
+      simplescore.cmd.version: true
   simplescore.cmd.force:
     description: Grants access to the force command
   simplescore.cmd.force.other:

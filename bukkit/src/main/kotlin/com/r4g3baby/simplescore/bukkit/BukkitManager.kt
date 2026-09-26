@@ -29,8 +29,8 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
     override val varReplacer = VarReplacer(plugin)
 
     private val protocolHandler = when {
-        ServerVersion.isBellow(ServerVersion.aquaticUpdate) -> LegacyProtocolHandler()
-        ServerVersion.isBellow(ServerVersion.trailsAndTailsUpdate.copy(build = 3)) -> TeamsProtocolHandler()
+        ServerVersion.isBelow(ServerVersion.aquaticUpdate) -> LegacyProtocolHandler()
+        ServerVersion.isBelow(ServerVersion.trailsAndTailsUpdate.copy(build = 3)) -> TeamsProtocolHandler()
         else -> ModernProtocolHandler()
     }
 
@@ -153,7 +153,8 @@ class BukkitManager(private val plugin: BukkitPlugin) : BaseManager<Player, Yaml
         } else viewer.removeScoreboard(regionProvider)
     }
 
-    private val worldScoreboardsCache = mutableMapOf<String, List<Scoreboard<Player>>>()
+    // Accessed concurrently from region threads via PlayerMoveEvent on Folia
+    private val worldScoreboardsCache = ConcurrentHashMap<String, List<Scoreboard<Player>>>()
     private fun getForWorld(world: World): List<Scoreboard<Player>> {
         return worldScoreboardsCache.computeIfAbsent(world.name) {
             for ((predicate, scoreboards) in config.worlds) {

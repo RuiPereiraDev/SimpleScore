@@ -9,12 +9,14 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.text.MessageFormat
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class I18n<V : Any>(private val platform: Platform<V>) : I18n {
     private lateinit var defaultBundle: ResourceBundle
     private lateinit var customBundle: ResourceBundle
 
-    private val messageFormatCache = HashMap<String, MessageFormat>()
+    // ConcurrentHashMap: trans() is called from both platform threads and async tasks
+    private val messageFormatCache = ConcurrentHashMap<String, MessageFormat>()
 
     override fun trans(key: String, vararg args: Any, prefixed: Boolean): String {
         val prefix = if (prefixed) {

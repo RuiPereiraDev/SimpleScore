@@ -49,12 +49,12 @@ data class ServerVersion(
             return ServerVersion(numbers[0], numbers[1], numbers[2])
         }
 
-        fun isBellow(version: ServerVersion): Boolean {
-            return currentVersion.isBellow(version)
+        fun isBelow(version: ServerVersion): Boolean {
+            return currentVersion.isBelow(version)
         }
 
-        fun atOrBellow(version: ServerVersion): Boolean {
-            return currentVersion.atOrBellow(version)
+        fun atOrBelow(version: ServerVersion): Boolean {
+            return currentVersion.atOrBelow(version)
         }
 
         fun isAbove(version: ServerVersion): Boolean {
@@ -66,11 +66,11 @@ data class ServerVersion(
         }
     }
 
-    fun isBellow(version: ServerVersion): Boolean {
+    fun isBelow(version: ServerVersion): Boolean {
         return compareTo(version) < 0
     }
 
-    fun atOrBellow(version: ServerVersion): Boolean {
+    fun atOrBelow(version: ServerVersion): Boolean {
         return compareTo(version) <= 0
     }
 
