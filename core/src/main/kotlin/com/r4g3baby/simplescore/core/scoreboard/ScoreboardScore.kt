@@ -27,7 +27,9 @@ class ScoreboardScore<V : Any>(
     companion object {
         private val counter = AtomicInteger(0)
         fun getNextIdentifier(): String {
-            return "sbs${counter.getAndIncrement()}"
+            // Base36 keeps the identifier short: legacy/teams protocol handlers encode each
+            // character into a 16-char team name (2n + 2), which breaks with decimal ids >= 10000.
+            return "sbs${counter.getAndIncrement().toString(36)}"
         }
     }
 

@@ -11,7 +11,8 @@ abstract class ScoreboardLine<V : Any> : ScoreboardLine<V> {
 
         private val counter = AtomicInteger(0)
         fun getNextIdentifier(): String {
-            return "sbl${counter.getAndIncrement()}"
+            // Base36 keeps identifiers compact and lexicographically stable for longer.
+            return "sbl${counter.getAndIncrement().toString(36)}"
         }
     }
 

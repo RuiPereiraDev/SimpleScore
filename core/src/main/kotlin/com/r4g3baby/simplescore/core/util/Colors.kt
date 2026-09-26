@@ -39,9 +39,10 @@ fun translateColorCodes(text: String): String {
                 }
             }
 
-            // Color code detection (&a → §a)
-            if (nextChar in COLOR_CHARS) {
-                result.append(COLOR_CHAR).append(nextChar)
+            // Color code detection (&a → §a), case-insensitive like vanilla (&A → §a)
+            val colorChar = nextChar.lowercaseChar()
+            if (colorChar in COLOR_CHARS) {
+                result.append(COLOR_CHAR).append(colorChar)
 
                 i += 2 // Skip over the processed color code
                 continue

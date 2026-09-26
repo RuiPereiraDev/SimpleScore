@@ -24,10 +24,11 @@ fun checkForUpdates(onNewVersion: (SemVer) -> Unit, onNoVersion: (Exception?) ->
     try {
         BufferedReader(InputStreamReader(connection.inputStream)).use { inputStream ->
             val response = inputStream.readText()
-            val tagNameStartIndex = response.indexOf("\"tag_name\":\"v") + "\"tag_name\":\"v".length
-            val tagNameEndIndex = response.indexOf("\"", tagNameStartIndex)
+            val tagNameIndex = response.indexOf("\"tag_name\":\"v")
+            val tagNameStartIndex = tagNameIndex + "\"tag_name\":\"v".length
+            val tagNameEndIndex = if (tagNameIndex != -1) response.indexOf("\"", tagNameStartIndex) else -1
 
-            val tagName = if (tagNameStartIndex > -1 && tagNameEndIndex > -1) {
+            val tagName = if (tagNameIndex != -1 && tagNameEndIndex != -1) {
                 response.substring(tagNameStartIndex, tagNameEndIndex)
             } else null
 

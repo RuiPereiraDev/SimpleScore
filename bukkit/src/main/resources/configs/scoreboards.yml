@@ -50,7 +50,7 @@
 #  renderEvery is the more impact on performance it will have.
 # Placeholders: https://github.com/RuiPereiraDev/SimpleScore/wiki/Placeholders
 #
-# Check out the examples bellow for more information.
+# Check out the examples below for more information.
 
 # Example of a simple Scoreboard layout.
 default:

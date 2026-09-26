@@ -35,8 +35,10 @@ class ScoreboardsConfig(
             val section = config.getConfigurationSection(name) ?: return@forEach
 
             val defaultHideNumber = section.getBoolean("defaultHideNumber", false)
-            val defaultVisibleFor = section.getInt("defaultVisibleFor", DEFAULT_VISIBLE_TICKS)
-            val defaultRenderEvery = section.getInt("defaultRenderEvery", DEFAULT_RENDER_TICKS)
+            // Values below 1 are invalid (renderEvery: 0 would cause a division by zero
+            // in AnimatedLine.shouldRender), so fall back to the defaults.
+            val defaultVisibleFor = section.getInt("defaultVisibleFor", DEFAULT_VISIBLE_TICKS).coerceAtLeast(1)
+            val defaultRenderEvery = section.getInt("defaultRenderEvery", DEFAULT_RENDER_TICKS).coerceAtLeast(1)
 
             val titles = section.parseScoreboardLines("titles", defaultVisibleFor, defaultRenderEvery)
             val scores = section.parseScoreboardScores(defaultHideNumber, defaultVisibleFor, defaultRenderEvery)
@@ -151,8 +153,8 @@ class ScoreboardsConfig(
             return BlankLine(conditions)
         }
 
-        var renderEvery = get("renderEvery")
-        if (renderEvery !is Int) renderEvery = defaultRenderEvery
+        val renderEveryValue = get("renderEvery")
+        val renderEvery = if (renderEveryValue is Int && renderEveryValue > 0) renderEveryValue else defaultRenderEvery
 
         return if (!text.isBlank()) {
             StaticLine(text, renderEvery, textEffects, conditions)
@@ -177,11 +179,11 @@ class ScoreboardsConfig(
                 is String -> frames.add(AnimatedLine.Frame(frame, defaultVisibleFor, defaultRenderEvery))
 
                 is Map<*, *> -> {
-                    var visibleFor = frame["visibleFor"]
-                    if (visibleFor !is Int) visibleFor = defaultVisibleFor
+                    val visibleForValue = frame["visibleFor"]
+                    val visibleFor = if (visibleForValue is Int && visibleForValue > 0) visibleForValue else defaultVisibleFor
 
-                    var renderEvery = frame["renderEvery"]
-                    if (renderEvery !is Int) renderEvery = defaultRenderEvery
+                    val renderEveryValue = frame["renderEvery"]
+                    val renderEvery = if (renderEveryValue is Int && renderEveryValue > 0) renderEveryValue else defaultRenderEvery
 
                     val text = frame["text"] ?: run {
                         plugin.logger.warning("Missing text value for frame '${this.currentPath}[$i]'.")

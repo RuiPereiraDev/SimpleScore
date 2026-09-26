@@ -89,7 +89,7 @@ object Reflection {
         }
 
         if (clazz.superclass != null) {
-            return getMethod(clazz.superclass, returnType, *parameters)
+            return getMethod(clazz.superclass, returnType, *parameters, filter = filter)
         }
 
         throw IllegalArgumentException("Unable to find a method with the return type $returnType and parameters ${parameters.contentToString()} in $clazz")
@@ -106,7 +106,7 @@ object Reflection {
         }
 
         if (clazz.superclass != null) {
-            return getMethodByName(clazz.superclass, methodName)
+            return getMethodByName(clazz.superclass, methodName, filter)
         }
 
         throw IllegalArgumentException("Unable to find a method with the name $methodName in $clazz")
@@ -134,7 +134,7 @@ object Reflection {
         }
 
         if (clazz.superclass != null) {
-            return getField(clazz.superclass, fieldType, currentIndex)
+            return getField(clazz.superclass, fieldType, currentIndex, filter)
         }
 
         throw IllegalArgumentException("Unable to find a field with the type $fieldType in $clazz")

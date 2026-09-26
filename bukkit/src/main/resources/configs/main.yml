@@ -44,5 +44,5 @@ worlds:
 # Controls the frequency of the update task in ticks (20 ticks = 1 second).
 taskUpdateTime: 1
 
-# Controls weather the main scoreboard update task runs asynchronously or not.
+# Controls whether the main scoreboard update task runs asynchronously or not.
 scoreboardTaskAsync: true

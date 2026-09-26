@@ -21,7 +21,7 @@
 #
 # Placeholders: https://github.com/RuiPereiraDev/SimpleScore/wiki/Placeholders
 #
-# Check out the examples bellow for more information.
+# Check out the examples below for more information.
 
 # Checks if a player has the specified permission.
 hasPermission:
@@ -48,7 +48,7 @@ inTheEnd:
   value: '%player_world%'
   parseValue: true
 
-# This condition is true the player health is below 5 hearts (10 health points).
+# This condition is true when the player's health is below 5 hearts (10 health points).
 isLowHealth:
   type: LessThan
   input: '%player_health%'
